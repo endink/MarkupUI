@@ -8,9 +8,9 @@
 </p>
 
 <p align="center">
-  <a href="https://endink.github.io/MarkupUI/">在线文档</a> ·
-  <a href="docs/ue/getting-started/quick-start.md">Unreal Engine</a> ·
-  <a href="docs/unity/getting-started/quick-start.md">Unity</a> ·
+  <a href="https://markupui.labijie.com">在线文档</a> ·
+  <a href="https://markupui.labijie.com/ue/getting-started/quick-start/">Unreal Engine</a> ·
+  <a href="https://markupui.labijie.com/unity/getting-started/quick-start/">Unity</a> ·
   <a href="https://github.com/endink/MarkupUI/issues">问题反馈</a>
 </p>
 
@@ -30,13 +30,13 @@ Markup UI 使用 HTML 定义界面结构，使用 CSS 设置布局与样式，�
 
 **支持使用蓝图连接界面与游戏逻辑**：绑定蓝图对象的属性，将页面事件关联到蓝图函数，并通过蓝图节点发送属性更改通知。通过 UMG 显示 HTML 界面，在编辑器中预览页面；也可使用 C++ 属性、`UFUNCTION` 和扩展属性接入已有游戏系统。
 
-[安装与项目准备](docs/ue/getting-started/install.md) · [第一个游戏界面](docs/ue/getting-started/quick-start.md) · [在 UMG 中显示页面](docs/ue/usage/umg.md)
+[安装与项目准备](https://markupui.labijie.com/ue/getting-started/install/) · [第一个游戏界面](https://markupui.labijie.com/ue/getting-started/quick-start/) · [在 UMG 中显示页面](https://markupui.labijie.com/ue/usage/umg/)
 
 ### Unity
 
 通过 UI Toolkit 显示 HTML 界面，将页面资产同步到工程，并在编辑器中预览。使用 C# 数据模型和命令，将界面连接到应用逻辑。
 
-[安装与项目准备](docs/unity/getting-started/install.md) · [第一个游戏界面](docs/unity/getting-started/quick-start.md) · [接入 UI Toolkit](docs/unity/usage/ui-toolkit.md)
+[安装与项目准备](https://markupui.labijie.com/unity/getting-started/install/) · [第一个游戏界面](https://markupui.labijie.com/unity/getting-started/quick-start/) · [接入 UI Toolkit](https://markupui.labijie.com/unity/usage/ui-toolkit/)
 
 ## 从数据到交互
 
@@ -44,8 +44,8 @@ Markup UI 使用 HTML 定义界面结构，使用 CSS 设置布局与样式，�
 
 这些功能可用于背包、玩家状态面板、设置界面和游戏菜单等场景：使用 HTML/CSS 定义呈现方式，使用 C++ 或 C# 实现业务逻辑。
 
-[编写第一个页面](docs/authoring/first-page.md) · [数据绑定](docs/binding/getting-started.md) · [事件与命令](docs/binding/events-and-commands.md) · [触发器](docs/binding/triggers.md)
+[编写第一个页面](https://markupui.labijie.com/authoring/first-page/) · [数据绑定](https://markupui.labijie.com/binding/getting-started/) · [事件与命令](https://markupui.labijie.com/binding/events-and-commands/) · [触发器](https://markupui.labijie.com/binding/triggers/)
 
 ## 文档与反馈
 
-通过[在线文档](https://endink.github.io/MarkupUI/)了解安装配置、模板语法及各平台的功能支持。问题、建议和功能需求可提交到 [Issues](https://github.com/endink/MarkupUI/issues)。
+通过[在线文档](https://markupui.labijie.com)了解安装配置、模板语法及各平台的功能支持。问题、建议和功能需求可提交到 [Issues](https://github.com/endink/MarkupUI/issues)。

@@ -8,9 +8,9 @@
 </p>
 
 <p align="center">
-  <a href="https://endink.github.io/MarkupUI/">Documentation</a> ·
-  <a href="docs/ue/getting-started/quick-start.md">Unreal Engine</a> ·
-  <a href="docs/unity/getting-started/quick-start.md">Unity</a> ·
+  <a href="https://markupui.labijie.com">Documentation</a> ·
+  <a href="https://markupui.labijie.com/ue/getting-started/quick-start/">Unreal Engine</a> ·
+  <a href="https://markupui.labijie.com/unity/getting-started/quick-start/">Unity</a> ·
   <a href="https://github.com/endink/MarkupUI/issues">Issues</a>
 </p>
 
@@ -30,13 +30,13 @@ Markup UI uses HTML for interface structure and CSS for layout and styling. Hard
 
 **Blueprint support connects interfaces to gameplay logic**: bind Blueprint object properties, invoke Blueprint functions from page events, and send property change notifications through Blueprint nodes. Display HTML interfaces in UMG and preview pages in the editor, with C++ properties, `UFUNCTION` commands, and extension properties available for integration with existing game systems.
 
-[Install](docs/ue/getting-started/install.md) · [Create your first interface](docs/ue/getting-started/quick-start.md) · [Display in UMG](docs/ue/usage/umg.md)
+[Install](https://markupui.labijie.com/ue/getting-started/install/) · [Create your first interface](https://markupui.labijie.com/ue/getting-started/quick-start/) · [Display in UMG](https://markupui.labijie.com/ue/usage/umg/)
 
 ### Unity
 
 Display HTML interfaces through UI Toolkit, synchronize page assets into the project, and preview them in the editor. Use C# data models and commands to connect interfaces to application logic.
 
-[Install](docs/unity/getting-started/install.md) · [Create your first interface](docs/unity/getting-started/quick-start.md) · [Integrate with UI Toolkit](docs/unity/usage/ui-toolkit.md)
+[Install](https://markupui.labijie.com/unity/getting-started/install/) · [Create your first interface](https://markupui.labijie.com/unity/getting-started/quick-start/) · [Integrate with UI Toolkit](https://markupui.labijie.com/unity/usage/ui-toolkit/)
 
 ## From data to interaction
 
@@ -44,8 +44,8 @@ Templates describe what the interface displays. Data binding keeps page content 
 
 This supports interfaces such as inventories, player status panels, settings screens, and in-game menus, with presentation defined in HTML/CSS and application behavior implemented in C++ or C#.
 
-[Write your first page](docs/authoring/first-page.md) · [Data binding](docs/binding/getting-started.md) · [Events and commands](docs/binding/events-and-commands.md) · [Triggers](docs/binding/triggers.md)
+[Write your first page](https://markupui.labijie.com/authoring/first-page/) · [Data binding](https://markupui.labijie.com/binding/getting-started/) · [Events and commands](https://markupui.labijie.com/binding/events-and-commands/) · [Triggers](https://markupui.labijie.com/binding/triggers/)
 
 ## Documentation and feedback
 
-Explore the [documentation](https://endink.github.io/MarkupUI/) for setup, template syntax, and platform-specific capabilities. Report bugs, ask questions, or suggest features in [Issues](https://github.com/endink/MarkupUI/issues).
+Explore the [documentation](https://markupui.labijie.com) for setup, template syntax, and platform-specific capabilities. Report bugs, ask questions, or suggest features in [Issues](https://github.com/endink/MarkupUI/issues).
