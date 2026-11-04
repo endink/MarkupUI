@@ -28,7 +28,7 @@ Markup UI 使用 HTML 定义界面结构，使用 CSS 设置布局与样式，�
 
 ### Unreal Engine
 
-通过 UMG 显示 HTML 界面，在编辑器中预览页面，并绑定游戏数据。使用 Unreal Engine 属性、命令和扩展属性，将页面内容及交互连接到游戏逻辑。
+**支持使用蓝图连接界面与游戏逻辑**：绑定蓝图对象的属性，将页面事件关联到蓝图函数，并通过蓝图节点发送属性更改通知。通过 UMG 显示 HTML 界面，在编辑器中预览页面；也可使用 C++ 属性、`UFUNCTION` 和扩展属性接入已有游戏系统。
 
 [安装与项目准备](docs/ue/getting-started/install.md) · [第一个游戏界面](docs/ue/getting-started/quick-start.md) · [在 UMG 中显示页面](docs/ue/usage/umg.md)
 

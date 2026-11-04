@@ -28,7 +28,7 @@ Markup UI uses HTML for interface structure and CSS for layout and styling. Hard
 
 ### Unreal Engine
 
-Display HTML interfaces in UMG, preview pages in the editor, and bind them to game data. Use Unreal Engine properties, commands, and extension properties to connect page content and interaction to gameplay logic.
+**Blueprint support connects interfaces to gameplay logic**: bind Blueprint object properties, invoke Blueprint functions from page events, and send property change notifications through Blueprint nodes. Display HTML interfaces in UMG and preview pages in the editor, with C++ properties, `UFUNCTION` commands, and extension properties available for integration with existing game systems.
 
 [Install](docs/ue/getting-started/install.md) · [Create your first interface](docs/ue/getting-started/quick-start.md) · [Display in UMG](docs/ue/usage/umg.md)
 
