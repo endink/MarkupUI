@@ -1,0 +1,39 @@
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 24px;
+  background-color: transparent;
+  color: #edf4fa;
+  font-family: sans-serif;
+  font-size: 16px;
+}
+
+.panel {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 480px;
+  padding: 24px;
+  background-color: rgba(27, 42, 56, 0.3);
+  border: 2px solid #55b7ff;
+  border-radius: 12px;
+}
+
+h1 {
+  margin: 0 0 16px;
+  font-size: 28px;
+}
+
+p {
+  margin: 0 0 24px;
+  line-height: 1.5;
+}
+
+.status {
+  padding: 8px 12px;
+  background-color: #55b7ff;
+  color: #101820;
+}

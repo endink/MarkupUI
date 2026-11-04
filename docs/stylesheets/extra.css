@@ -1,0 +1,198 @@
+/* Keep the theme's responsive layout while allowing wider documentation. */
+.md-grid {
+  max-width: 1600px;
+}
+
+/* Mark the end of tab content with a subtle bottom rule. */
+[data-md-color-scheme="slate"] {
+  --docs-tab-background: rgba(85, 183, 255, 0.02);
+}
+[data-md-color-scheme="default"] {
+  --docs-tab-background: rgba(0, 114, 181, 0.015);
+}
+.md-typeset .tabbed-alternate > .tabbed-content {
+  background: var(--docs-tab-background);
+  box-shadow: 0 -0.05rem var(--md-default-fg-color--lightest) inset;
+  padding-block: 0.8rem;
+  margin-bottom: 1.5rem;
+}
+.md-typeset .tabbed-alternate > .tabbed-content > .tabbed-block > :first-child {
+  margin-top: 0;
+}
+.md-typeset .tabbed-alternate > .tabbed-content > .tabbed-block > :last-child {
+  margin-bottom: 0;
+}
+
+/* Logo bracket gradient: #83D7FF -> #55B7FF -> #5277FF.
+   Use its central blue, with darker text colors on light backgrounds. */
+[data-md-color-scheme="default"] {
+  --md-primary-fg-color: #0072b5;
+  --md-primary-fg-color--light: #55b7ff;
+  --md-primary-fg-color--dark: #005a91;
+  --md-accent-fg-color: #005a91;
+  --md-accent-fg-color--transparent: #55b7ff1a;
+  --md-typeset-a-color: #0072b5;
+}
+
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color: #55b7ff;
+  --md-primary-fg-color--light: #83d7ff;
+  --md-primary-fg-color--dark: #0072b5;
+  --md-accent-fg-color: #83d7ff;
+  --md-accent-fg-color--transparent: #55b7ff1a;
+  --md-typeset-a-color: #55b7ff;
+}
+
+/* Keep top-level menu icons aligned with their text labels. */
+.md-tabs__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.docs-tab-icon svg {
+  width: 1em;
+  height: 1em;
+}
+
+/* Binding roles follow the VS Code extension, with explicit light/dark colors. */
+[data-md-color-scheme="slate"] {
+  --markup-directive: #e8dca0;
+  --markup-directive-background: rgba(255, 214, 64, 0.18);
+  --markup-scope: #c586c0;
+  --markup-property: #4ec9b0;
+  --markup-string: #ce9178;
+  --markup-number: #b5cea8;
+  --markup-delimiter: #ffd866;
+}
+[data-md-color-scheme="default"] {
+  --markup-directive: #665000;
+  --markup-directive-background: rgba(255, 214, 64, 0.22);
+  --markup-scope: #8f009f;
+  --markup-property: #267f99;
+  --markup-string: #a31515;
+  --markup-number: #098658;
+  --markup-delimiter: #805500;
+}
+:is(.language-html, .language-markupui).highlight .nd {
+  color: var(--markup-directive);
+  background-color: var(--markup-directive-background);
+  border-radius: 2px;
+}
+:is(.language-html, .language-markupui).highlight :is(.nv, .k, .kc) {
+  color: var(--markup-scope);
+}
+:is(.language-html, .language-markupui).highlight .py {
+  color: var(--markup-property);
+}
+:is(.language-html, .language-markupui).highlight .s1 {
+  color: var(--markup-string);
+}
+:is(.language-html, .language-markupui).highlight .m {
+  color: var(--markup-number);
+}
+:is(.language-html, .language-markupui).highlight .si {
+  color: var(--markup-delimiter);
+  font-weight: 600;
+}
+
+/* C++ and C#: VS Code-inspired lexical colors, scoped away from HTML. */
+[data-md-color-scheme="slate"] {
+  --model-text: #dcdcdc;
+  --model-keyword: #569cd6;
+  --model-type: #4ec9b0;
+  --model-member: #9cdcfe;
+  --model-function: #dcdcaa;
+  --model-string: #d69d85;
+  --model-number: #b5cea8;
+  --model-comment: #57a64a;
+  --model-macro: #c586c0;
+}
+[data-md-color-scheme="default"] {
+  --model-text: #000000;
+  --model-keyword: #0000ff;
+  --model-type: #2b91af;
+  --model-member: #1f377f;
+  --model-function: #74531f;
+  --model-string: #a31515;
+  --model-number: #000000;
+  --model-comment: #008000;
+  --model-macro: #8f009f;
+}
+:is(.language-cpp, .language-csharp, .language-cs, .language-c\+\+, .language-c\#, .language-markupui-cpp, .language-markupui-csharp).highlight {
+  --md-code-fg-color: var(--model-text);
+}
+:is(.language-cpp, .language-csharp, .language-cs, .language-c\+\+, .language-c\#, .language-markupui-cpp, .language-markupui-csharp).highlight :is(.k, .kc, .kd, .kn, .kr, .kt) {
+  color: var(--model-keyword);
+  font-weight: normal;
+}
+:is(.language-cpp, .language-csharp, .language-cs, .language-c\+\+, .language-c\#, .language-markupui-cpp, .language-markupui-csharp).highlight :is(.nc, .nb) {
+  color: var(--model-type);
+  font-weight: normal;
+}
+:is(.language-cpp, .language-csharp, .language-cs, .language-c\+\+, .language-c\#, .language-markupui-cpp, .language-markupui-csharp).highlight :is(.py, .nv, .vi) {
+  color: var(--model-member);
+}
+:is(.language-cpp, .language-csharp, .language-cs, .language-c\+\+, .language-c\#, .language-markupui-cpp, .language-markupui-csharp).highlight :is(.nf, .fm) {
+  color: var(--model-function);
+  font-weight: normal;
+}
+:is(.language-cpp, .language-csharp, .language-cs, .language-c\+\+, .language-c\#, .language-markupui-cpp, .language-markupui-csharp).highlight :is(.s, .s1, .s2, .sc, .se, .sa, .sb, .cpf) {
+  color: var(--model-string);
+}
+:is(.language-cpp, .language-csharp, .language-cs, .language-c\+\+, .language-c\#, .language-markupui-cpp, .language-markupui-csharp).highlight :is(.m, .mi, .mf, .mh, .mo, .mb, .il) {
+  color: var(--model-number);
+}
+:is(.language-cpp, .language-csharp, .language-cs, .language-c\+\+, .language-c\#, .language-markupui-cpp, .language-markupui-csharp).highlight :is(.c, .c1, .cm, .cs, .ch) {
+  color: var(--model-comment);
+  font-style: normal;
+}
+:is(.language-cpp, .language-csharp, .language-cs, .language-c\+\+, .language-c\#, .language-markupui-cpp, .language-markupui-csharp).highlight :is(.no, .cp) {
+  color: var(--model-macro);
+  font-weight: normal;
+}
+:is(.language-cpp, .language-csharp, .language-cs, .language-c\+\+, .language-c\#, .language-markupui-cpp, .language-markupui-csharp).highlight :is(.n, .p, .o, .w) {
+  color: var(--model-text);
+}
+
+/* Inline warnings: icon and text share a legible warning color. */
+.md-typeset .text-warning {
+  color: #a65d00;
+}
+[data-md-color-scheme="slate"] .md-typeset .text-warning {
+  color: #ffb74d;
+}
+
+/* Select the SVG palette using the site's theme toggle. */
+.md-typeset .diagram-dark { display: none; }
+[data-md-color-scheme="slate"] .md-typeset .diagram-light { display: none; }
+[data-md-color-scheme="slate"] .md-typeset .diagram-dark { display: block; }
+
+:is(.language-cpp, .language-csharp, .language-cs, .language-markupui-cpp, .language-markupui-csharp).highlight .nn {
+  color: var(--model-type);
+  opacity: 0.80;
+}
+
+[data-md-color-scheme="slate"] :is(.language-cpp, .language-csharp, .language-cs, .language-markupui-cpp, .language-markupui-csharp).highlight .nn {
+  color: #79b5a8;
+  opacity: 1;
+}
+[data-md-color-scheme="slate"] img[src$="commands-and-triggers.svg"] {
+  color-scheme: dark;
+}
+
+[data-md-color-scheme="default"] img[src$="commands-and-triggers.svg"] {
+  color-scheme: light;
+}
+
+.md-typeset .text-success {
+  color: #16834a;
+}
+
+[data-md-color-scheme="slate"] .md-typeset .text-success {
+  color: #62d995;
+}
+
+:is(.language-cpp, .language-markupui-cpp).highlight .na {
+  color: var(--model-member);
+}
+

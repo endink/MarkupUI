@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="640" viewBox="0 0 1120 640" role="img" aria-labelledby="title desc">
+<title id="title">Markup UI data binding</title>
+<desc id="desc">A PlayerObject exposes Health and Name. Property notifications update the HTML health display through a binding path. Editing the name field writes Bob back to the object on blur in two-way mode.</desc>
+<view id="light" viewBox="0 0 1120 640"/>
+<view id="dark" viewBox="0 0 1120 640"/>
+<defs>
+  <marker id="blue" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path d="M1 1 6 4 1 7" fill="none" stroke="var(--line-blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="mint" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path d="M1 1 6 4 1 7" fill="none" stroke="var(--line-mint)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <symbol id="person" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 21v-2a7 7 0 0 1 14 0v2"/></symbol>
+  <symbol id="heart" viewBox="0 0 24 24"><path d="M20.8 5.5a5.5 5.5 0 0 0-8 .2l-.8.8-.8-.8a5.5 5.5 0 0 0-8 7.5L12 22l8.8-8.8a5.5 5.5 0 0 0 0-7.7Z"/></symbol>
+</defs>
+<style>
+:root{--directive:#ffd866;--delimiter:#ffb36b;--property:#9cdcfe;--canvas:rgba(113,139,175,.10);--panel:rgba(145,172,205,.10);--text:#e3edf7;--muted:#a8b9cc;--blue:#81c9ff;--mint:#8cdebc;--blue-tint:rgba(64,155,226,.14);--mint-tint:rgba(56,173,129,.14);--preview:rgba(155,185,213,.08);--line-blue:#57b9ff;--line-mint:#69dfb3}
+:root:has(#light:target){--directive:#885200;--delimiter:#a14508;--property:#176899;--canvas:rgba(0,0,0,.025);--panel:rgba(59,88,120,.055);--text:#243c53;--muted:#587087;--blue:#186ba5;--mint:#226e50;--blue-tint:rgba(40,139,216,.10);--mint-tint:rgba(28,148,103,.10);--preview:rgba(255,255,255,.65);--line-blue:#2487ca;--line-mint:#25845e}
+
+text{font-family:'Segoe UI',Arial,sans-serif} .h{fill:var(--text);font-size:20px;font-weight:600}.muted{fill:var(--muted);font-size:14px}.mono{font-family:Consolas,monospace;font-size:17px}.icon{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+</style>
+<rect width="1120" height="640" rx="20" fill="var(--canvas)"/>
+<rect x="36" y="34" width="5" height="31" rx="2" fill="var(--line-blue)"/>
+<text x="53" y="58" fill="var(--text)" font-size="26" font-weight="600">From application data to UI</text>
+<text x="53" y="84" class="muted">Markup UI · observable properties, binding paths and input writeback</text>
+
+<!-- Data context: property inspector -->
+<rect x="36" y="124" width="300" height="365" rx="14" fill="var(--panel)"/>
+<rect x="56" y="144" width="42" height="42" rx="10" fill="var(--blue-tint)"/>
+<g class="icon" color="var(--blue)"><path d="m69 155-5 10 5 10m16-20 5 10-5 10m-6-22-4 24"/></g>
+<text x="111" y="162" class="h">DataContext</text><text x="111" y="183" class="muted">Observable PlayerObject</text>
+<rect x="56" y="211" width="260" height="108" rx="10" fill="var(--blue-tint)"/>
+<use href="#heart" x="72" y="229" width="20" height="20" fill="var(--blue)"/>
+<text x="103" y="246" fill="var(--blue)" class="mono">Health</text>
+<text x="74" y="291" fill="var(--muted)" font-size="25" text-decoration="line-through">100</text>
+<path d="M133 282h33" stroke="var(--blue)" stroke-width="2"/><path d="m160 277 6 5-6 5" fill="none" stroke="var(--blue)" stroke-width="2"/>
+<text x="181" y="295" fill="var(--blue)" font-size="34" font-weight="700">80</text>
+<rect x="56" y="340" width="260" height="108" rx="10" fill="var(--mint-tint)"/>
+<use href="#person" x="72" y="355" width="22" height="22" class="icon" color="var(--mint)"/>
+<text x="103" y="373" fill="var(--mint)" class="mono">Name</text>
+<text x="74" y="417" fill="var(--muted)" font-size="22" text-decoration="line-through">Alice</text>
+<path d="M138 408h28m-6-5 6 5-6 5" fill="none" stroke="var(--mint)" stroke-width="2"/>
+<text x="181" y="422" fill="var(--mint)" font-size="30" font-weight="700">Bob</text>
+<text x="56" y="473" class="muted">Property values + change notifications</text>
+
+<!-- Binding: compact expression nodes -->
+<rect x="430" y="124" width="260" height="365" rx="14" fill="var(--panel)"/>
+<!-- Binding icon: two property nodes with an explicit read/write connection. -->
+<g class="icon" color="var(--blue)">
+  <rect x="446" y="149" width="10" height="23" rx="2" fill="var(--blue-tint)"/>
+  <rect x="473" y="149" width="10" height="23" rx="2" fill="var(--blue-tint)"/>
+  <path d="M449 155h4m-4 5h4m-4 5h4m24-10h3m-3 5h3m-3 5h3" stroke-width="1.2"/>
+  <path d="M460 156h9m-3-3 3 3-3 3M469 166h-9m3-3-3 3 3 3"/>
+</g>
+<text x="490" y="164" class="h">Binding</text>
+<rect x="450" y="211" width="220" height="108" rx="10" fill="var(--blue-tint)"/>
+<rect x="465" y="224" width="65" height="23" rx="5" fill="var(--blue-tint)"/><text x="475" y="240" fill="var(--blue)" font-size="12" font-weight="600">oneWay</text>
+<text x="465" y="274" fill="var(--blue)" class="mono"><tspan fill="var(--delimiter)">{{</tspan><tspan fill="var(--property)"> Health </tspan><tspan fill="var(--delimiter)">}}</tspan></text>
+<text x="465" y="299" class="muted">Notify → read → update</text>
+<rect x="450" y="340" width="220" height="108" rx="10" fill="var(--mint-tint)"/>
+<rect x="465" y="353" width="65" height="23" rx="5" fill="var(--mint-tint)"/><text x="475" y="369" fill="var(--mint)" font-size="12" font-weight="600">twoWay</text>
+<text x="465" y="403" fill="var(--mint)" class="mono"><tspan fill="var(--directive)" font-weight="600">@value</tspan><tspan fill="var(--muted)">="</tspan><tspan fill="var(--delimiter)">{</tspan><tspan fill="var(--property)">Name</tspan><tspan fill="var(--delimiter)">}</tspan><tspan fill="var(--muted)">"</tspan></text>
+<text x="465" y="429" fill="var(--mint)" font-size="14">Writeback on blur</text>
+
+<!-- UI: actual rendered controls -->
+<rect x="784" y="124" width="300" height="365" rx="14" fill="var(--panel)"/>
+<rect x="804" y="144" width="42" height="42" rx="10" fill="var(--mint-tint)"/>
+<g class="icon" color="var(--mint)"><rect x="813" y="154" width="24" height="20" rx="2"/><path d="M813 160h24"/><circle cx="817" cy="157" r=".6"/><circle cx="821" cy="157" r=".6"/></g>
+<text x="859" y="162" class="h">HTML UI</text><text x="859" y="183" class="muted">Binding targets</text>
+<rect x="804" y="211" width="260" height="237" rx="10" fill="var(--preview)"/>
+<text x="822" y="240" fill="var(--muted)" font-size="13">PLAYER STATUS</text>
+<use href="#heart" x="822" y="260" width="21" height="21" fill="#e57482"/>
+<text x="854" y="283" fill="var(--text)" font-size="35" font-weight="700">80</text><text x="903" y="282" fill="var(--muted)" font-size="17">/ 100</text>
+<rect x="822" y="298" width="224" height="9" rx="4" fill="var(--panel)"/><rect x="822" y="298" width="179" height="9" rx="4" fill="#48a9ed"/>
+<text x="822" y="350" fill="var(--muted)" font-size="13">PLAYER NAME</text>
+<rect x="822" y="364" width="224" height="48" rx="7" fill="var(--mint-tint)"/>
+<text x="837" y="396" fill="var(--mint)" font-size="23" font-weight="600">Bob</text><path d="M882 374v27" stroke="var(--mint)" stroke-width="1.5"/>
+<path d="m1020 379 6 6-14 14-7 1 1-7Z" fill="none" stroke="var(--mint)" stroke-width="1.8"/>
+<text x="804" y="473" class="muted">Bound text + editable input</text>
+
+<!-- Data direction / input direction -->
+<path d="M336 264H430" fill="none" stroke="var(--line-blue)" stroke-width="3" marker-end="url(#blue)"/><path d="M690 264H784" fill="none" stroke="var(--line-blue)" stroke-width="3" marker-end="url(#blue)"/>
+
+<text x="356" y="249" fill="var(--blue)" font-size="12">notify</text><text x="705" y="249" fill="var(--blue)" font-size="12">update</text>
+<path d="M336 395H430" fill="none" stroke="var(--line-mint)" stroke-width="3" marker-start="url(#mint)" marker-end="url(#mint)"/><path d="M690 395H784" fill="none" stroke="var(--line-mint)" stroke-width="3" marker-start="url(#mint)" marker-end="url(#mint)"/>
+
+<text x="700" y="380" fill="var(--mint)" font-size="12">read / write</text><text x="346" y="380" fill="var(--mint)" font-size="12">read / write</text>
+
+<!-- Two concise process strips -->
+<rect x="36" y="515" width="1048" height="43" rx="9" fill="var(--blue-tint)"/>
+<circle cx="59" cy="537" r="11" fill="#3b9bdf"/><text x="55" y="542" fill="#fff" font-size="13" font-weight="600">1</text>
+<text x="81" y="543" fill="var(--blue)" font-size="16">Data changes</text><text x="228" y="543" fill="var(--line-blue)" font-size="18">→</text><text x="263" y="543" fill="var(--blue)" font-size="16">Property notification</text><text x="453" y="543" fill="var(--line-blue)" font-size="18">→</text><text x="490" y="543" fill="var(--blue)" font-size="16">Binding reads the value</text><text x="708" y="543" fill="var(--line-blue)" font-size="18">→</text><text x="745" y="543" fill="var(--blue)" font-size="16">UI updates</text>
+<rect x="36" y="570" width="1048" height="43" rx="9" fill="var(--mint-tint)"/>
+<circle cx="59" cy="592" r="11" fill="#388c6b"/><text x="55" y="597" fill="#fff" font-size="13" font-weight="600">2</text>
+<text x="81" y="598" fill="var(--mint)" font-size="16">User edits</text><text x="228" y="598" fill="var(--line-mint)" font-size="18">→</text><text x="263" y="598" fill="var(--mint)" font-size="16">Configured update event</text><text x="453" y="598" fill="var(--line-mint)" font-size="18">→</text><text x="490" y="598" fill="var(--mint)" font-size="16">Binding writes the value</text><text x="708" y="598" fill="var(--line-mint)" font-size="18">→</text><text x="745" y="598" fill="var(--mint)" font-size="16">DataContext updates</text>
+</svg>

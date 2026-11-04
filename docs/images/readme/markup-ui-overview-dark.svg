@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="420" viewBox="0 0 1440 420" role="img" aria-labelledby="title desc">
+<title id="title">Markup UI — HTML and CSS for game interfaces</title>
+<desc id="desc">HTML and CSS connect to game interfaces through data binding, with Unreal Engine and Unity support.</desc>
+<style>
+:root{--bg:#1d2439;--card:#28334e;--text:#eef2ff;--muted:#b2bdd5;--line:#46516c;--blue:#92baff;--purple:#c5a5ff;--green:#70dbc8;--soft:#333f59;--pink:#f5a0c6}
+@media(prefers-color-scheme:dark){:root{--bg:#1d2439;--card:#28334e;--text:#eef2ff;--muted:#b2bdd5;--line:#46516c;--blue:#92baff;--purple:#c5a5ff;--green:#70dbc8;--soft:#333f59;--pink:#f5a0c6}}
+.bg{fill:var(--bg)}.card{fill:var(--card);stroke:var(--line);filter:url(#shadow)}.text{fill:var(--text)}.muted{fill:var(--muted)}.blue{fill:var(--blue)}.purple{fill:var(--purple)}.green{fill:var(--green)}.soft{fill:var(--soft)}
+</style>
+<defs>
+<filter id="edgeFeather" x="-15%" y="-30%" width="130%" height="160%"><feGaussianBlur stdDeviation="13"/></filter>
+<mask id="organicEdge" maskUnits="userSpaceOnUse" x="0" y="0" width="1440" height="420">
+<path d="M46 31C141 3 254 31 355 20S543 9 669 22 869 5 988 20 1214 3 1387 32C1421 71 1404 114 1420 163S1401 263 1414 312 1400 383 1359 399C1234 413 1145 392 1031 405S825 390 721 404 526 390 417 403 195 388 80 400C30 389 22 356 31 317S13 231 28 189 12 104 33 68Z" fill="white" filter="url(#edgeFeather)"/>
+</mask>
+<filter id="shadow" x="-20%" y="-25%" width="140%" height="160%"><feDropShadow dx="0" dy="9" stdDeviation="10" flood-color="#263164" flood-opacity=".14"/></filter>
+<radialGradient id="violetGlow"><stop stop-color="#a19af4" stop-opacity=".32"/><stop offset="1" stop-color="#a19af4" stop-opacity="0"/></radialGradient>
+<radialGradient id="mintGlow"><stop stop-color="#57d6c0" stop-opacity=".28"/><stop offset="1" stop-color="#57d6c0" stop-opacity="0"/></radialGradient>
+<linearGradient id="slotViolet" x2="1" y2="1"><stop stop-color="#a8a0f4" stop-opacity=".28"/><stop offset="1" stop-color="#a8a0f4" stop-opacity=".07"/></linearGradient>
+<linearGradient id="slotMint" x2="1" y2="1"><stop stop-color="#54cbb4" stop-opacity=".28"/><stop offset="1" stop-color="#54cbb4" stop-opacity=".07"/></linearGradient>
+<linearGradient id="slotGold" x2="1" y2="1"><stop stop-color="#edbc62" stop-opacity=".32"/><stop offset="1" stop-color="#edbc62" stop-opacity=".08"/></linearGradient>
+<pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".8" fill="#8591bb" opacity=".17"/></pattern>
+<clipPath id="canvas"><rect width="1440" height="420" rx="22"/></clipPath>
+<linearGradient id="accent"><stop stop-color="#28c5b2"/><stop offset=".5" stop-color="#7395ef"/><stop offset="1" stop-color="#cd78cb"/></linearGradient>
+  <g id="unreal"><path d="M12 0a12 12 0 1 0 12 12A12 12 0 0 0 12 0m0 23.52A11.52 11.52 0 1 1 23.52 12 11.52 11.52 0 0 1 12 23.52m7.13-9.791c-.206.997-1.126 3.557-4.06 4.942l-1.179-1.325-1.988 2a7.34 7.34 0 0 1-5.804-2.978 3 3 0 0 0 .65.123c.326.006.678-.114.678-.66v-5.394a.89.89 0 0 0-1.116-.89c-.92.212-1.656 2.509-1.656 2.509a7.3 7.3 0 0 1 2.528-5.597 7.4 7.4 0 0 1 3.73-1.721c-1.006.573-1.57 1.507-1.57 2.29 0 1.262.76 1.109.984.923v7.28a1.2 1.2 0 0 0 .148.256 1.08 1.08 0 0 0 .88.445c.76 0 1.747-.868 1.747-.868V9.172c0-.6-.452-1.324-.905-1.572 0 0 .838-.149 1.484.346a6 6 0 0 1 .387-.425c1.508-1.48 2.929-1.902 4.112-2.112 0 0-2.151 1.69-2.151 3.96 0 1.687.043 5.801.043 5.801.799.771 1.986-.342 3.059-1.441Z"/></g>
+  <g id="unity"><path d="m12.929 4.294 3.8 2.193c.136.077.141.29 0 .367l-4.515 2.608a.42.42 0 0 1-.425 0L7.274 6.854c-.139-.074-.141-.293 0-.367l3.797-2.193V0L1.376 5.598v11.195l3.718-2.146v-4.385c-.003-.157.18-.269.317-.184l4.515 2.607a.43.43 0 0 1 .214.368v5.213c.002.156-.181.268-.318.184l-3.8-2.193-3.717 2.145L12 24l9.695-5.598-3.717-2.145-3.8 2.192c-.134.082-.323-.024-.318-.183v-5.213c0-.156.087-.296.214-.368l4.515-2.607c.134-.082.322.022.318.184v4.385l3.717 2.146V5.598L12.93 0Z"/></g>
+</defs>
+<g mask="url(#organicEdge)">
+<rect width="1440" height="420" rx="22" class="bg"/>
+<g clip-path="url(#canvas)">
+<ellipse cx="226" cy="64" rx="490" ry="285" fill="url(#violetGlow)"/>
+<ellipse cx="1195" cy="294" rx="520" ry="290" fill="url(#mintGlow)"/>
+<rect width="1440" height="420" fill="url(#dots)"/>
+<path d="M-40 355C330 190 545 490 990 332S1430 115 1510 189" fill="none" stroke="#9b94ed" stroke-opacity=".16" stroke-width="1.5"/>
+<path d="M-40 370C330 205 545 505 990 347S1430 130 1510 204" fill="none" stroke="#4ccab9" stroke-opacity=".16" stroke-width="1.5"/>
+</g>
+</g>
+<g font-family="Segoe UI,Arial,sans-serif">
+<path d="m54 36-13 13 13 13m33-26 13 13-13 13M74 32 63 66" fill="none" stroke="url(#accent)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="118" y="64" class="text" font-size="38" font-weight="700">Markup UI</text>
+<text x="1397" y="59" text-anchor="end" class="muted" font-size="19">HTML + CSS. Connected to your game.</text>
+<rect x="42" y="99" width="530" height="235" rx="14" class="card"/>
+<circle cx="64" cy="120" r="4" fill="#ef8294"/><circle cx="80" cy="120" r="4" fill="#eabb63"/><circle cx="96" cy="120" r="4" fill="#50c4a5"/>
+<path d="M43 140h528" stroke="var(--line)"/><text x="121" y="125" class="muted" font-size="12">inventory.html</text>
+<g font-family="Consolas,monospace" font-size="17">
+<text x="65" y="166" class="blue">&lt;section <tspan class="purple">class</tspan><tspan class="green">="inventory"</tspan>&gt;</text>
+<text x="87" y="199" class="blue">&lt;h2&gt;<tspan class="green">{{ PlayerName }}</tspan>&lt;/h2&gt;</text>
+<text x="87" y="232" class="blue">&lt;div <tspan class="purple">@for</tspan><tspan class="green">="{Items}"</tspan>&gt;</text>
+<text x="109" y="265" class="green">{{ Name }} × {{ Count }}</text>
+<text x="87" y="298" class="blue">&lt;/div&gt; &lt;/section&gt;</text>
+</g>
+<path d="M590 218h190m-9-7 9 7-9 7" fill="none" stroke="url(#accent)" stroke-width="2"/>
+<rect x="611" y="186" width="145" height="64" rx="12" class="card"/><rect x="611" y="186" width="145" height="3" rx="1.5" fill="url(#accent)"/>
+<text x="683" y="213" text-anchor="middle" class="green" font-size="14" font-weight="700">DATA BINDING</text>
+<text x="683" y="234" text-anchor="middle" class="muted" font-size="12">C++ / C#</text>
+<rect x="799" y="99" width="599" height="235" rx="14" class="card"/>
+<text x="823" y="128" class="muted" font-size="11" letter-spacing="1.6">PLAYER INVENTORY</text>
+<text x="823" y="162" class="text" font-size="26" font-weight="600">Arden</text>
+<rect x="977" y="150" width="199" height="6" rx="3" class="soft"/><rect x="977" y="150" width="159" height="6" rx="3" fill="#40bfaa"/>
+<text x="1196" y="158" class="muted" font-size="12">HEALTH 80 / 100</text>
+<rect x="823" y="181" width="170" height="90" rx="9" fill="url(#slotViolet)" stroke="#9a91e8" stroke-opacity=".45"/>
+<rect x="1008" y="181" width="170" height="90" rx="9" fill="url(#slotMint)" stroke="#47bda6" stroke-opacity=".45"/>
+<rect x="1193" y="181" width="181" height="90" rx="9" fill="url(#slotGold)" stroke="#d8aa54" stroke-opacity=".45"/>
+<path d="M834 270h148" stroke="#9a91e8" stroke-width="2" stroke-opacity=".7"/><path d="M1019 270h148" stroke="#47bda6" stroke-width="2" stroke-opacity=".7"/><path d="M1204 270h159" stroke="#d8aa54" stroke-width="2" stroke-opacity=".7"/>
+<g fill="none" stroke-width="2.5" stroke-linejoin="round"><path d="m903 194 13 13-19 19-6-6 19-19m6 6 9-9m-34 22-6 6" stroke="#9391ed"/><path d="M1084 193h15v8l7 8v19h-29v-19l7-8z" stroke="#39b9a3"/><path d="m1283 192 18 7v16l-18 14-18-14v-16z" stroke="#d6a249"/></g>
+<g class="text" font-size="13"><text x="840" y="254">Iron blade × 1</text><text x="1025" y="254">Potion × 3</text><text x="1210" y="254">Oak shield × 1</text></g>
+<text x="823" y="309" class="muted" font-size="13">UI events → Commands</text>
+<rect x="1236" y="286" width="138" height="29" rx="6" fill="url(#accent)"/><text x="1305" y="306" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">EQUIP</text>
+<rect x="362" y="352" width="704" height="51" rx="25" fill="var(--card)" fill-opacity=".7" stroke="var(--line)"/><use href="#unreal" transform="translate(389 365) scale(1.1)" class="text"/><text x="430" y="386" class="text" font-size="18" font-weight="600">Unreal Engine</text>
+<circle cx="618" cy="378" r="2" fill="#a995de"/>
+<use href="#unity" transform="translate(651 365) scale(1.1)" class="text"/><text x="692" y="386" class="text" font-size="18" font-weight="600">Unity</text>
+<circle cx="780" cy="378" r="2" fill="#6bcbb9"/>
+<text x="813" y="385" class="muted" font-size="16">Hardware-accelerated UI</text>
+</g>
+</svg>

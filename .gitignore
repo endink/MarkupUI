@@ -1,0 +1,17 @@
+site/
+__pycache__/
+*.py[cod]
+*.egg-info/
+tools/markupui-highlighter/build/
+.DS_Store
+Thumbs.db
+
+.venv-zensical/
+.cache/
+.zensical-ci-*.toml
+
+# Local agent instructions, skills, and working backups.
+AGENTS.md
+.agents/
+.codex/
+/backups/

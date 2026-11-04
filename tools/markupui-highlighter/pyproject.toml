@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "markupui-docs-highlighter"
+version = "0.3.0"
+description = "Build-time syntax highlighting for Markup UI documentation"
+requires-python = ">=3.11"
+dependencies = ["Pygments>=2.18,<3", "Markdown>=3.7,<4"]
+
+[project.entry-points."pygments.lexers"]
+markupui = "markupui_highlighter:MarkupUILexer"
+markupui-cpp = "markupui_highlighter:MarkupCppLexer"
+markupui-csharp = "markupui_highlighter:MarkupCSharpLexer"
+
+[tool.setuptools]
+py-modules = ["markupui_highlighter"]

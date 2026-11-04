@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="320" viewBox="0 0 960 320" role="img" aria-labelledby="title desc">
+  <title id="title">Commands and triggers</title>
+  <desc id="desc">Commands: UI to business logic. Triggers: business events to UI actions.</desc>
+  <style>
+    :root { color-scheme: light dark; --text:#263449; --muted:#63718a; --line:#94a3b8; --blue:#2563eb; --purple:#7c3aed; --green:#087f68; --orange:#c65a13; --blue-bg:#eaf1ff; --purple-bg:#f1eaff; --green-bg:#e4f6ef; --orange-bg:#fff0e2; }
+    @media (prefers-color-scheme:dark) { :root { --text:#e1e8f3; --muted:#a4b0c5; --line:#66768d; --blue:#8ab4ff; --purple:#c4a0ff; --green:#68d8b5; --orange:#ffb779; --blue-bg:#1d304b; --purple-bg:#332747; --green-bg:#183b35; --orange-bg:#423022; } }
+    text { font-family:Arial,sans-serif; fill:var(--text); font-size:16px; }
+    .caption { font-size:13px; fill:var(--muted); }
+    .heading { font-size:17px; font-weight:600; }
+    .icon { fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+    .arrow { fill:none; stroke:var(--line); stroke-width:2; }
+  </style>
+  <defs>
+    <g id="cursor" class="icon"><path d="M-9-13 12 3 1 5-4 16Z"/><path d="m2 6 7 10"/></g>
+    <g id="code" class="icon"><path d="m-9-9-9 9 9 9M9-9l9 9-9 9M4-14-4 14"/></g>
+    <g id="bolt" class="icon"><path d="M2-17-12 3H0l-2 14L13-4H1Z"/></g>
+    <g id="screen" class="icon"><rect x="-18" y="-14" width="36" height="26" rx="2"/><path d="M-7 19H7M0 12v7M-18-6h36"/></g>
+    <g id="link" class="icon"><path d="m-3-8 4-4a9 9 0 0 1 13 13l-5 5M3 8l-4 4A9 9 0 0 1-14-1l5-5M-6 6 6-6"/></g>
+    <g id="arrow" class="arrow"><path d="M0 0H60m-7-6 7 6-7 6"/></g>
+  </defs>
+  <text x="28" y="30" class="heading">COMMAND</text>
+  <text x="28" y="53" class="caption">UI → Business</text>
+  <text x="28" y="189" class="heading">TRIGGER</text>
+  <text x="28" y="212" class="caption">Business → UI</text>
+  <rect x="344" y="47" width="272" height="260" rx="4" fill="none" stroke="var(--line)" stroke-width="1.5" stroke-dasharray="6 5"/>
+  <text x="480" y="35" text-anchor="middle" class="caption">Markup UI</text>
+  <g text-anchor="middle">
+    <path d="M28 68h244v70H28Z" fill="var(--blue-bg)"/>
+    <path d="M358 68h244v70H358Z" fill="var(--purple-bg)"/>
+    <path d="M688 68h244v70H688Z" fill="var(--green-bg)"/>
+    <use href="#cursor" x="68" y="103" style="color:var(--blue)"/><text x="165" y="109">UI event</text>
+    <use href="#link" x="398" y="103" style="color:var(--purple)"/><text x="498" y="109">Command</text>
+    <use href="#code" x="728" y="103" style="color:var(--green)"/><text x="825" y="109">Business logic</text>
+    <path d="M28 227h244v70H28Z" fill="var(--green-bg)"/>
+    <path d="M358 227h244v70H358Z" fill="var(--orange-bg)"/>
+    <path d="M688 227h244v70H688Z" fill="var(--blue-bg)"/>
+    <use href="#bolt" x="68" y="262" style="color:var(--green)"/><text x="165" y="268">Business event</text>
+    <use href="#bolt" x="398" y="262" style="color:var(--orange)"/><text x="498" y="268">Trigger</text>
+    <use href="#screen" x="728" y="262" style="color:var(--blue)"/><text x="825" y="258">UI actions</text><text x="825" y="279" class="caption">class · command</text>
+  </g>
+  <use href="#arrow" x="285" y="103"/><use href="#arrow" x="615" y="103"/>
+  <use href="#arrow" x="285" y="262"/><use href="#arrow" x="615" y="262"/>
+</svg>
