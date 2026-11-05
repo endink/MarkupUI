@@ -1,6 +1,10 @@
 <p align="right"><b>English</b> · <a href="README_CN.md">简体中文</a></p>
 
-![Markup UI — HTML/CSS interfaces for Unreal Engine and Unity](docs/images/readme/markup-ui-overview.svg)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/images/readme/markup-ui-overview-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/images/readme/markup-ui-overview.svg">
+  <img alt="Markup UI — HTML/CSS interfaces for Unreal Engine and Unity" src="docs/images/readme/markup-ui-overview.svg" width="100%">
+</picture>
 
 <p align="center">
   <b>A data-driven HTML/CSS UI framework for games and real-time applications.</b><br>

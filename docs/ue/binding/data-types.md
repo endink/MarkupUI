@@ -22,7 +22,18 @@ icon: bootstrap/boxes
 | `FMatrix44f`、`FMatrix44d` | `Matrix4x4` | 四阶矩阵 |
 | `FTransform3f`、`FTransform3d` | `Matrix4x4` | 变换以矩阵传递 |
 
-常用名称 `FVector2D`、`FVector`、`FQuat`、`FRotator`、`FMatrix`、`FTransform` 按其实际对应的类型使用映射。旋转和变换类型以矩阵参与 SDK 数据传递，映射不会自动增加 HTML/CSS 的渲染能力。
+常用名称 `FVector2D`、`FVector`、`FQuat`、`FRotator`、`FMatrix`、`FTransform` 按其实际对应的类型使用映射。旋转和变换类型映射为遵循 CSS 列向量语义的矩阵，可直接绑定到 `style.transform`。Mapper 负责双向坐标轴映射，例如正 Roll 映射为 CSS 正 Z 轴旋转。矩阵组合与绑定示例参见[矩阵](../../binding/data-types.md#matrix)。
+
+!!! warning "FTransform 不支持剪切"
+    UE 的 `FTransform` 只能保存**平移、旋转和沿三个局部轴的缩放**，无法完整表示剪切。
+
+    剪切会让原本互相垂直的轴变斜，例如将矩形的上边向右推，使其变成平行四边形。CSS 和 4 × 4 矩阵可以表达这种变换；**非等比缩放与旋转按某些顺序组合，也可能产生剪切**。
+
+    将页面中的矩阵写回 UE 类型时：
+
+    - **`FMatrix`**：可以完整保留包含剪切的矩阵。
+    - **`FTransform`**：若矩阵包含剪切，Mapper 会拒绝转换并保留目标原值，避免静默丢失变换。
+    - **可分解为平移、旋转和轴向缩放的矩阵**：可以正常写回 `FTransform`。
 
 `bool`、`int8`、`uint8`、`int16`、`uint16`、`int32`、`uint32`、`int64`、`uint64`、`float`、`double` 使用对应的 SDK 布尔或数字类型。
 

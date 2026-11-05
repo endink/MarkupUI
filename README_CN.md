@@ -1,6 +1,10 @@
 <p align="right"><a href="README.md">English</a> · <b>简体中文</b></p>
 
-![Markup UI：面向 Unreal Engine 与 Unity 的 HTML/CSS 界面](docs/images/readme/markup-ui-overview.svg)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/images/readme/markup-ui-overview-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/images/readme/markup-ui-overview.svg">
+  <img alt="Markup UI：面向 Unreal Engine 与 Unity 的 HTML/CSS 界面" src="docs/images/readme/markup-ui-overview.svg" width="100%">
+</picture>
 
 <p align="center">
   <b>面向游戏与实时应用的数据驱动 HTML/CSS 用户界面框架。</b><br>
