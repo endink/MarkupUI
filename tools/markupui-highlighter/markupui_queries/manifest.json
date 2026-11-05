@@ -1,0 +1,122 @@
+{
+  "c": {
+    "repository": "https://github.com/tree-sitter/tree-sitter-c",
+    "revision": "v0.23.1",
+    "files": {
+      "highlights.scm": {
+        "url": "https://raw.githubusercontent.com/tree-sitter/tree-sitter-c/v0.23.1/queries/highlights.scm",
+        "sha256": "3378d854dda695b2b282b9468247524ed4271ef74af691033d2e36883379409c"
+      },
+      "LICENSE": {
+        "url": "https://raw.githubusercontent.com/tree-sitter/tree-sitter-c/v0.23.1/LICENSE",
+        "sha256": "2e0110e07abef7c2548b26ec9d6969775617ca539a0dc8dbeeb14d6452c711d1"
+      }
+    }
+  },
+  "cpp": {
+    "repository": "https://github.com/tree-sitter/tree-sitter-cpp",
+    "revision": "v0.23.4",
+    "files": {
+      "highlights.scm": {
+        "url": "https://raw.githubusercontent.com/tree-sitter/tree-sitter-cpp/v0.23.4/queries/highlights.scm",
+        "sha256": "52136576a9a9dacd9e95a8de0f351689bf46140738572ab4e9f24c9278e6b458"
+      },
+      "LICENSE": {
+        "url": "https://raw.githubusercontent.com/tree-sitter/tree-sitter-cpp/v0.23.4/LICENSE",
+        "sha256": "2e0110e07abef7c2548b26ec9d6969775617ca539a0dc8dbeeb14d6452c711d1"
+      }
+    }
+  },
+  "csharp": {
+    "repository": "https://github.com/tree-sitter/tree-sitter-c-sharp",
+    "revision": "v0.23.5",
+    "files": {
+      "highlights.scm": {
+        "url": "https://raw.githubusercontent.com/tree-sitter/tree-sitter-c-sharp/v0.23.5/queries/highlights.scm",
+        "sha256": "ab8a9930aeeee70fa2dbfde82e4763170b7e826bc642338ad0683772c20c060f"
+      },
+      "LICENSE": {
+        "url": "https://raw.githubusercontent.com/tree-sitter/tree-sitter-c-sharp/v0.23.5/LICENSE",
+        "sha256": "778fb7d63b8c1844da315648c02f325c4713a6f4a5d19644fd413421422776d3"
+      }
+    }
+  },
+  "html": {
+    "repository": "https://github.com/tree-sitter/tree-sitter-html",
+    "revision": "v0.23.2",
+    "files": {
+      "highlights.scm": {
+        "url": "https://raw.githubusercontent.com/tree-sitter/tree-sitter-html/v0.23.2/queries/highlights.scm",
+        "sha256": "1ebb3811a8cdc054385b847a3aac6fbf7079faefd5b3dfab5bbad256cd5afdcf"
+      },
+      "LICENSE": {
+        "url": "https://raw.githubusercontent.com/tree-sitter/tree-sitter-html/v0.23.2/LICENSE",
+        "sha256": "2e0110e07abef7c2548b26ec9d6969775617ca539a0dc8dbeeb14d6452c711d1"
+      },
+      "injections.scm": {
+        "url": "https://raw.githubusercontent.com/tree-sitter/tree-sitter-html/v0.23.2/queries/injections.scm",
+        "sha256": "6faa29537e952ee444aaa6ac00f72956d13f65616aade74bd665f5ac405f9c32"
+      }
+    }
+  },
+  "css": {
+    "repository": "https://github.com/tree-sitter/tree-sitter-css",
+    "revision": "v0.25.0",
+    "files": {
+      "highlights.scm": {
+        "url": "https://raw.githubusercontent.com/tree-sitter/tree-sitter-css/v0.25.0/queries/highlights.scm",
+        "sha256": "23f7948a3817a0d06d7120158c3bee4ec5b58daa77e524985a4738b364db17b2"
+      },
+      "LICENSE": {
+        "url": "https://raw.githubusercontent.com/tree-sitter/tree-sitter-css/v0.25.0/LICENSE",
+        "sha256": "c5cfb43042b6b72045f4ba997834d0a7786d2793d91680868b5815b39f14fc78"
+      }
+    }
+  },
+  "javascript": {
+    "repository": "https://github.com/tree-sitter/tree-sitter-javascript",
+    "revision": "v0.25.0",
+    "files": {
+      "highlights.scm": {
+        "url": "https://raw.githubusercontent.com/tree-sitter/tree-sitter-javascript/v0.25.0/queries/highlights.scm",
+        "sha256": "d3630ae6dc9b2b27b230b5f8bb92b05cd491fb12bff353dae62a0a6d780461ee"
+      },
+      "LICENSE": {
+        "url": "https://raw.githubusercontent.com/tree-sitter/tree-sitter-javascript/v0.25.0/LICENSE",
+        "sha256": "2e0110e07abef7c2548b26ec9d6969775617ca539a0dc8dbeeb14d6452c711d1"
+      },
+      "locals.scm": {
+        "url": "https://raw.githubusercontent.com/tree-sitter/tree-sitter-javascript/v0.25.0/queries/locals.scm",
+        "sha256": "c1dd2cfa1400d397fa974208fc9edfe817be4a3c8b42bb99af5c8d193b1bb753"
+      }
+    }
+  },
+  "json": {
+    "repository": "https://github.com/tree-sitter/tree-sitter-json",
+    "revision": "v0.24.8",
+    "files": {
+      "highlights.scm": {
+        "url": "https://raw.githubusercontent.com/tree-sitter/tree-sitter-json/v0.24.8/queries/highlights.scm",
+        "sha256": "0511524465b56aed122580792254e68b6abbbfde7119f1d02b135acbe278233f"
+      },
+      "LICENSE": {
+        "url": "https://raw.githubusercontent.com/tree-sitter/tree-sitter-json/v0.24.8/LICENSE",
+        "sha256": "2e0110e07abef7c2548b26ec9d6969775617ca539a0dc8dbeeb14d6452c711d1"
+      }
+    }
+  },
+  "yaml": {
+    "repository": "https://github.com/tree-sitter-grammars/tree-sitter-yaml",
+    "revision": "v0.7.2",
+    "files": {
+      "highlights.scm": {
+        "url": "https://raw.githubusercontent.com/tree-sitter-grammars/tree-sitter-yaml/v0.7.2/queries/highlights.scm",
+        "sha256": "2fbfbbd5ca0928d0a7e09e59f8f2964b14a328a7ee0ce799270d9013dcce49a0"
+      },
+      "LICENSE": {
+        "url": "https://raw.githubusercontent.com/tree-sitter-grammars/tree-sitter-yaml/v0.7.2/LICENSE",
+        "sha256": "2d181298822a124f6d106118dcc69c8d4d26ac668559be29682c452e712b0947"
+      }
+    }
+  }
+}

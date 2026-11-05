@@ -22,13 +22,7 @@ site_name = "Highlight regression"
 variant = "modern"
 [project.markdown_extensions.markupui_highlighter]
 [project.markdown_extensions."pymdownx.superfences"]
-[project.markdown_extensions."pymdownx.highlight"]
-pygments_lang_class = true
-extend_pygments_lang = [
- { name = "cpp", lang = "markupui-cpp" },
- { name = "csharp", lang = "markupui-csharp" },
- { name = "html", lang = "markupui" },
-]
+[project.markdown_extensions."pymdownx.inlinehilite"]
 '''
         (root / "zensical.toml").write_text(config, encoding="utf-8")
         page = root / "docs/index.md"
@@ -37,6 +31,7 @@ extend_pygments_lang = [
             page.write_text(f'''# Revision {revision}
 
 ```cpp
+FMarkupUIElement root = Widget->GetRootElement();
 MARKUPUI_PROPERTY(PlayerObject, int32_t, Health, {revision})
 ```
 
@@ -46,6 +41,22 @@ public class PlayerObject : INotifyPropertyChanged {{}}
 
 ```html
 <p @if="{{IsReady}}">Ready</p>
+<style>.panel {{ color: red; }}</style>
+<script>const ready = true;</script>
+```
+
+`#!cpp FMarkupUIElement` and `#!csharp List<int>`
+
+```css
+.panel {{ color: red; }}
+```
+
+```json
+{{"ready": true}}
+```
+
+```yaml
+ready: true
 ```
 ''', encoding="utf-8")
 
@@ -70,10 +81,10 @@ public class PlayerObject : INotifyPropertyChanged {{}}
                             if f"Revision {revision}</h1>" not in rendered:
                                 time.sleep(0.15)
                                 continue
-                            for token in ('class="no"', 'class="nc"', 'class="nd"'):
+                            for token in ('class="no"', 'class="nc"', 'class="nd"', 'class="py"', 'class="kc"'):
                                 assert token in rendered, f"Revision {revision} lost {token}"
                             assert 'language-text' not in rendered
-                            print(f"Revision {revision}: C++, C# and HTML highlighting preserved", flush=True)
+                            print(f"Revision {revision}: Tree-sitter block, inline and embedded highlighting preserved", flush=True)
                             break
                         except OSError:
                             time.sleep(0.15)
@@ -81,7 +92,16 @@ public class PlayerObject : INotifyPropertyChanged {{}}
                         log.seek(0)
                         raise RuntimeError("Preview did not update:\n" + log.read())
             finally:
-                process.terminate()
+                if sys.platform == "win32":
+                    # Zensical starts worker processes; close their inherited
+                    # log handles before removing the temporary preview site.
+                    subprocess.run(
+                        ["taskkill", "/PID", str(process.pid), "/T", "/F"],
+                        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                        check=False,
+                    )
+                else:
+                    process.terminate()
                 try:
                     process.wait(timeout=5)
                 except subprocess.TimeoutExpired:

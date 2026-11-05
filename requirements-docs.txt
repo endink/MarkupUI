@@ -1,2 +1,3 @@
+--only-binary=tree-sitter,tree-sitter-cpp,tree-sitter-c-sharp,tree-sitter-html,tree-sitter-css,tree-sitter-javascript,tree-sitter-json,tree-sitter-yaml
 zensical==0.0.74
 ./tools/markupui-highlighter

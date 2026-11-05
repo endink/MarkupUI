@@ -68,8 +68,8 @@ icon: bootstrap/cursor
     #include "Dom/MarkupDom.h"
 
     // Widget points to the ready MarkupUI Widget.
-    auto root = Widget->GetRootElement();
-    auto status = root.GetElementById(TEXT("status"));
+    FMarkupUIElement root = Widget->GetRootElement();
+    FMarkupUIElement status = root.GetElementById(TEXT("status"));
     if (status.IsValid())
     {
         status.SetInnerHtml(TEXT("Ready"));
@@ -118,10 +118,10 @@ icon: bootstrap/cursor
 === "C++"
 
     ```cpp
-    auto list = root.GetElementById(TEXT("message"));
+    FMarkupUIElement list = root.GetElementById(TEXT("message"));
     if (list.IsValid())
     {
-        auto message = Widget->CreateElement(TEXT("p"));
+        FMarkupUIElement message = Widget->CreateElement(TEXT("p"));
         if (message.IsValid())
         {
             message.SetInnerHtml(TEXT("New quest received"));
@@ -143,7 +143,7 @@ icon: bootstrap/cursor
 === "C++"
 
     ```cpp
-    auto nameInput = root.GetElementById(TEXT("player-name")).AsInput();
+    FMarkupUIInputElement nameInput = root.GetElementById(TEXT("player-name")).AsInput();
     if (nameInput.IsValid())
     {
         nameInput.SetValue(TEXT("Player"));

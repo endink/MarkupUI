@@ -1,0 +1,3 @@
+# Preserve upstream query and license bytes for manifest checksum verification.
+tools/markupui-highlighter/markupui_queries/*/*.scm -text
+tools/markupui-highlighter/markupui_queries/*/LICENSE -text

@@ -196,3 +196,15 @@
   color: var(--model-member);
 }
 
+.highlight .lineno {
+  display: inline-block;
+  min-width: 3ch;
+  padding-right: 1ch;
+  color: var(--md-default-fg-color--light);
+  user-select: none;
+}
+
+.highlight .lineno::before {
+  content: attr(data-linenos);
+}
+

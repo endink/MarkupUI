@@ -38,12 +38,16 @@ Pull Request 仅执行构建检查；`main` 更新和在 `main` 上手动触发�
 
 ### 代码高亮
 
-`html` 代码块使用项目内的 Markup UI 高亮器，保留 HTML、内嵌 CSS 和 JavaScript 的高亮，并识别 `@` / `mk:` 指令、文本插值和绑定表达式。也可显式使用 `markupui` 语言标记。CSS 等其他语言的代码块继续使用原有高亮。
+代码块和带语言标记的行内代码统一通过 Tree-sitter 解析，再由项目的 Markdown 扩展直接生成 HTML。支持 C++、C#、HTML/XML、CSS、JavaScript、JSON、YAML；纯文本或未支持的语言仅转义显示，不自动猜测语言。HTML 中的 `<style>`、`<script>` 分别交给 CSS、JavaScript 解析器；Markup UI 指令属性和文本插值中的表达式使用 JavaScript 语法树配合专用显示规则处理。
 
-高亮器位于 `tools/markupui-highlighter/`，通过 `requirements-docs.txt` 安装，本地预览和 GitHub Actions 共用。修改高亮器后重新安装依赖，执行一次清洁构建以更新高亮缓存，再重启预览；全新环境也必须先安装依赖。颜色在 `docs/stylesheets/extra.css` 中分别适配深浅主题。高亮仅用于展示，不验证语法是否合法或平台是否支持。
+高亮扩展位于 `tools/markupui-highlighter/`，通过 `requirements-docs.txt` 安装，本地预览和 GitHub Actions 共用。解析器版本固定在扩展的 `pyproject.toml`，依赖清单要求下载预编译包，无需本机编译解析器。第三方包、原生解析器、虚拟环境和下载缓存不提交到 Git 仓库。
 
-C++ 使用 `cpp`，C# 使用 `csharp`。这两类代码块在 Pygments 原有规则上增加 SDK 类型、`MARKUPUI_*` 宏、调用和属性的识别，使用单独的深浅主题配色。类型名称和调用识别属于词法提示，不进行编译器级别的符号解析；注释和字符串中的名称不会套用这些规则。
+扩展通过 PyMdown 的高亮提供者接口接入 SuperFences 和 InlineHilite，代码块、缩进代码和行内代码不调用 Pygments 的词法分析或 HTML 格式化。Pygments 可能仍由 Zensical 等上游依赖安装；无需手动删除这些上游依赖。生成的 HTML 沿用现有 CSS 角色名称和 `docs/stylesheets/extra.css` 中的深浅色板，并保持复制按钮。名称是否属于类型、命名空间等类别由官方查询的捕获结果决定，不再通过本地命名规则或符号表猜测。
 
-高亮器通过 `markupui_highlighter` Markdown 扩展在每个渲染实例中主动注册，普通正文修改的增量更新无需手动清理缓存。`preview-docs.bat` 在启动时自动刷新构建缓存；升级高亮器后重启该脚本即可。`scripts/check-highlight-preview.py` 会在隔离站点启动预览并连续更新页面，检查 C++、C# 和 HTML 的高亮是否保留，此检查也在 CI 中运行。
+基础高亮直接执行各语法仓库发布的原始 `highlights.scm`，C++ 按上游配置先加载 C 基础查询，再加载 C++ 查询。HTML 的内嵌 CSS、JavaScript 由官方 `injections.scm` 决定。查询快照和许可证位于 `tools/markupui-highlighter/markupui_queries/`；`manifest.json` 记录版本、来源与 SHA-256，测试校验快照未被修改。只将官方捕获类别映射为站点配色，不在查询文件中追加本地语言规则。
+
+C++ 使用 `cpp`，C# 使用 `csharp`；也支持原有别名。只有 UE 宏、元数据以及 Markup UI 的宏、SDK 专有类型和绑定语法保留额外显示适配。Tree-sitter 不执行编译器级别的符号解析，高亮不验证代码能否编译或绑定功能是否受支持。
+
+`markupui_highlighter` 扩展会在每个 Markdown 实例中注册提供者，普通正文的增量更新无需清理缓存。修改高亮器后重新运行 `preview-docs.bat`，脚本会安装依赖、执行严格清洁构建后启动预览。`scripts/check-highlight-preview.py` 在隔离站点连续修改页面，检查代码块、行内代码及内嵌语言的高亮；此检查与禁止 Pygments 高亮调用的回归测试均在 CI 中运行。
 
 唯一配置文件为 `zensical.toml`，使用 Zensical modern 深色主题。站内搜索随中文主题启用。Pages 构建通过 `scripts/build-docs.py` 读取 `DOCS_SITE_URL`，生成根目录下的临时 TOML，构建结束后自动删除；本地直接预览无需配置环境变量。

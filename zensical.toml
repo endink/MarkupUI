@@ -53,16 +53,6 @@ toggle.name = "切换到深色模式"
 permalink = true
 [project.markdown_extensions."pymdownx.details"]
 [project.markdown_extensions."pymdownx.superfences"]
-[project.markdown_extensions."pymdownx.highlight"]
-pygments_lang_class = true
-extend_pygments_lang = [
-  { name = "html", lang = "markupui" },
-  { name = "cpp", lang = "markupui-cpp" },
-  { name = "c++", lang = "markupui-cpp" },
-  { name = "csharp", lang = "markupui-csharp" },
-  { name = "cs", lang = "markupui-csharp" },
-  { name = "c#", lang = "markupui-csharp" },
-]
 [project.markdown_extensions."pymdownx.inlinehilite"]
 [project.markdown_extensions.markupui_highlighter]
 [project.markdown_extensions."pymdownx.tabbed"]
