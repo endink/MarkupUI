@@ -35,18 +35,22 @@ icon: bootstrap/broadcast
 </section>
 ```
 
-对应的非内联写法，将行为拆分为独立属性：
+非内联写法可以将自定义参数和行为拆成独立属性。
 
 ```html
 <section
-    @trigger="{name='mytrigger', parameter={param1='value1', param2='value2'}}"
+    @trigger="{name='mytrigger'}"
+    @trigger.parameter="{param1='value1', param2='value2'}"
     @trigger.do.command="{Save, parameter={Name, Age, Selected}}"
     @trigger.do.class="{value='active', op='append'}">
     <p>{{ Status }}</p>
 </section>
 ```
 
-两种写法等价。内联行为使用 `do:command`、`do:class`，非内联属性使用 `@trigger.do.command`、`@trigger.do.class`。非内联写法必须保留 `@trigger` 主属性，同一配置项或行为不能重复声明。
+两种写法等价。非内联写法用 `@trigger.parameter` 声明自定义参数，用 `@trigger.do.command`、`@trigger.do.class` 声明行为。同一配置项或行为只能声明一次。
+
+!!! warning "触发器名称必须写在主属性中"
+    即使将参数和行为拆成独立属性，也必须在 `@trigger` 的属性值中声明 `name`，例如 `@trigger="{name='mytrigger'}"`。`@trigger.name` 不是合法的触发器属性。
 
 !!! note "触发器参数"
     - 触发器可以定义多个参数。`param1`、`param2` 仅为示例名称；实际参数名称、含义和校验规则由具体触发器定义。
