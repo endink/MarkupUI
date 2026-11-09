@@ -42,7 +42,7 @@ Markup UI uses HTML for interface structure and CSS for layout and styling. Hard
 [Install](https://markupui.labijie.com/en/ue/getting-started/install/) · [Create your first interface](https://markupui.labijie.com/en/ue/getting-started/quick-start/) · [Display in UMG](https://markupui.labijie.com/en/ue/usage/umg/)
 
 <a href="https://youtu.be/i6j4lgOKl3E?si=bZueuEBIKbOvEHXN">
-  <img src="https://i.ytimg.com/vi/i6j4lgOKl3E/mqdefault.jpg" alt="Watch the Unreal Engine quick start on YouTube" width="320">
+  <img src="https://markdown-videos-api.jorgenkh.no/youtube/i6j4lgOKl3E" alt="Watch the Unreal Engine quick start on YouTube" width="320">
 </a>
 
 [Watch the Unreal Engine quick start on YouTube](https://youtu.be/i6j4lgOKl3E?si=bZueuEBIKbOvEHXN)
