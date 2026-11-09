@@ -41,6 +41,10 @@ Markup UI 使用 HTML 定义界面结构，使用 CSS 设置布局与样式，�
 
 [安装与项目准备](https://markupui.labijie.com/ue/getting-started/install/) · [第一个游戏界面](https://markupui.labijie.com/ue/getting-started/quick-start/) · [在 UMG 中显示页面](https://markupui.labijie.com/ue/usage/umg/)
 
+<a href="https://www.bilibili.com/video/BV12c4x6QEq5">
+  <img src="https://i0.hdslb.com/bfs/archive/cefe6ebaf6770f277cc4890f4955be9ea3ebde9b.jpg" alt="在哔哩哔哩观看 Unreal Engine 快速入门" width="320">
+</a>
+
 [在哔哩哔哩观看 Unreal Engine 快速入门](https://www.bilibili.com/video/BV12c4x6QEq5)
 
 ### Unity
