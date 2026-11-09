@@ -135,6 +135,21 @@ MarkupUI::Binding::NotifyPropertyChanged(
 
 蓝图中修改结构成员后，同样调用 **Notify Property Changed**，将 **Object** 连接到数据对象，将 **Property Name** 设为 `Profile`。
 
+#### 复杂结构的通知来源 {#nested-struct-notifications}
+
+以 `Layers[0].Entries['main'].Children[0].Child.Health` 为例。`Layers` 是数据对象上的数组属性，`Entries` 和 `Children` 是结构体内的集合，`Child` 是结构成员引用的 `UObject`。根据实际修改的位置选择通知。
+
+| 修改 | 通知来源 |
+| --- | --- |
+| 修改 `Child.Health` | 对 `Child` 发送 `Health` 属性通知。 |
+| 替换结构成员中的 `Child` 引用，或修改 `Entries` 和 `Children` 的内容 | 通知数据对象上的 `Layers`。如果这次操作作为外层数组项的替换提交，可以对 `Layers` 使用 `BeginArrayReplace` 和 `EndArrayReplace`。 |
+| 增删或替换 `Layers` 的元素 | 对原始 `Layers` 数组发送对应的集合通知。清空或批量重建后可发送 `NotifyArrayReset`。 |
+| 修改 `Child` 自己的反射集合属性 | 对 `Child` 上的原始集合发送集合通知。例如更新其 `Scores` 中的键时使用 `BeginMapAdd` 和 `EndMapAdd`。 |
+
+结构体内嵌的原生集合通过拥有它的对象属性或外层集合项通知来刷新。在游戏线程上完成修改与通知。蓝图的 **Notify Property Changed** 节点接收发通知的对象及其直接属性名，例如 `Child` 上的 `Health`，或数据对象上的 `Layers`。
+
+路径经过的索引或键被删除时，文本绑定会显示空值。重新加入该项并通知后，文本绑定和相应的 `@for` 列表会按当前数据更新。替换引用后，路径会从新对象读取。
+
 下方示例中的 `PlayerData` 代表已有的数据对象，假设它具有 `Health`、`Items`、`Scores` 和 `Tags` 属性。
 
 ## 设置数据上下文

@@ -18,7 +18,7 @@ icon: bootstrap/input-cursor-text
 | 多选 `select` | `@values`，或 `multiple` 配合 `@value` | 标量 Array | `twoWay` |
 | `option` | `@value` | 当前选项的值 | `oneWay` |
 
-`@value` 读取和设置控件当前的输入值，`@checked` 对应实际勾选状态。它们不仅是设置 HTML 源文件中的初始属性。
+`@value` 读取和设置控件当前的输入值，`@checked` 读取和设置实际勾选状态。复选框和单选框使用 `@checked`，在 XHTML 中写作 `mk:checked`。在这两类控件上使用 `@value` 会报告模板编译错误。普通的 HTML `value` 属性仍可用于声明表单值。
 
 !!! note "双向绑定需要可写属性"
     路径必须能定位可写的业务属性或可写集合项，控件也必须提供相应输入行为。`Price * Quantity`、`Name ?? 'Guest'` 等计算结果不能直接写回；设置 `twoWay` 不会自动反推业务属性。

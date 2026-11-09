@@ -36,7 +36,7 @@ jobs:
         if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         id: pages
         uses: actions/configure-pages@v5
-      - name: Build documentation
+      - name: Build Chinese and English documentation
         env:
           PAGES_URL: ${{ steps.pages.outputs.base_url }}
         run: |

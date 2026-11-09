@@ -774,6 +774,16 @@ public:
 | `Rows[0] = newRow` | 由 `Rows` 通知第 `0` 项被替换 | 由 `Rows` 通知第 `0` 项被替换 |
 | `Rows = newRows` | 由 `GridObject` 通知 `ValueRows` 属性变更 | 由 `GridObject` 通知 `SharedRows` 属性变更 |
 
+### 同一路径中的不同通知来源
+
+路径可以同时经过按值结构、可观察集合和引用对象。对于 `Root.ByKey['main'].Rows[0].Target.Health`，需要根据变化发生的位置选择通知。
+
+- 替换 `Root` 或修改其中的借用成员后，由数据对象发布 `Root` 属性通知。
+- 替换 `ByKey['main']` 时，由可观察字典发布键对应的元素变化。替换或移动 `Rows[0]` 时，由可观察数组或列表发布对应的集合变化。
+- 修改 `Target.Health` 时，由 `Target` 发布 `Health` 属性通知。替换 `Target` 引用本身时，由拥有该引用的属性或集合项发布通知。
+
+修改集合时应使用原始可观察实例。按值结构中的引用可以指向具有独立通知能力的对象或集合，通知仍由该实例发出。Unreal Engine 反射结构中的内嵌原生集合通过其拥有者通知刷新。具体操作见 [Unreal Engine 属性绑定](../ue/binding/property-binding.md#nested-struct-notifications)。
+
 ## 共享对象与生命周期
 
 共享引用允许多个父对象或集合使用同一子对象。删除一个集合中的项，只会移除该集合持有的引用；其他拥有方仍然可以保留并使用该对象。

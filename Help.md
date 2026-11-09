@@ -1,12 +1,12 @@
 # Markup UI 文档站点
 
-文档源文件位于 `docs/`，中文页面骨架已按公共内容、Unreal Engine、Unity、示例教程和版本信息分组；正文待逐步完善，英文后续补充。
+中文文档位于 `docs/`，英文文档位于 `docs-en/`。两种语言的 Markdown 页面使用相同的相对路径，并共用主题、样式和截图。中文是默认语言，英文发布到 `/en/`。
 
 ## 本地预览
 
-安装 Python 3.11 或更高版本后，双击 `preview-docs.bat`。脚本创建 `.venv-zensical`、安装依赖并启动预览。在浏览器打开终端显示的地址；修改文档后自动刷新。按 Ctrl+C 停止。
+安装 Python 3.11 或更高版本后，双击 `preview-docs.bat`。脚本创建 `.venv-zensical`、安装依赖并构建中英文站点。打开 [中文首页](http://127.0.0.1:15861/) 或 [英文首页](http://127.0.0.1:15861/en/)，也可以通过页眉的语言菜单切换。编辑后重新运行脚本以刷新预览，按 Ctrl+C 停止。
 
-也可手动运行：
+也可手动运行中文实时预览：
 
 ```powershell
 py -3 -m venv .venv-zensical
@@ -17,10 +17,10 @@ py -3 -m venv .venv-zensical
 ## 构建检查
 
 ```powershell
-.\.venv-zensical\Scripts\python.exe -m zensical build --clean --strict
+.\.venv-zensical\Scripts\python.exe scripts/build-docs.py
 ```
 
-生成文件位于 `site/`，无需提交。依赖版本在 `requirements-docs.txt` 中统一维护。
+构建会检查中英文页面是否一一对应，并以严格模式分别生成 `site/` 和 `site/en/`。生成文件无需提交。依赖版本在 `requirements-docs.txt` 中统一维护。
 
 ## GitHub Pages
 
@@ -28,7 +28,7 @@ py -3 -m venv .venv-zensical
 2. 在仓库 **Settings → Pages → Build and deployment → Source** 选择 **GitHub Actions**。
 3. 在 Actions 中手动运行 Documentation，或再次推送到 `main`。
 
-Pull Request 仅执行构建检查；`main` 更新和在 `main` 上手动触发会构建并发布。发布任务使用 `github-pages` 环境，需要符合仓库的部署保护规则。
+GitHub Actions 默认构建中英文站点。Pull Request 执行构建检查，`main` 更新和在 `main` 上手动触发会构建并发布两种语言。发布任务使用 `github-pages` 环境，需要符合仓库的部署保护规则。
 
 本地默认地址为 `http://127.0.0.1:15861/`。线上构建从 Pages 自动取得地址，通过 `DOCS_SITE_URL` 注入，支持仓库子路径，无需将账号名称写入配置。若以后启用自定义域名，在 Pages 设置中配置并核对生成地址。
 
@@ -50,4 +50,4 @@ C++ 使用 `cpp`，C# 使用 `csharp`；也支持原有别名。只有 UE 宏、
 
 `markupui_highlighter` 扩展会在每个 Markdown 实例中注册提供者，普通正文的增量更新无需清理缓存。修改高亮器后重新运行 `preview-docs.bat`，脚本会安装依赖、执行严格清洁构建后启动预览。`scripts/check-highlight-preview.py` 在隔离站点连续修改页面，检查代码块、行内代码及内嵌语言的高亮；此检查与禁止 Pygments 高亮调用的回归测试均在 CI 中运行。
 
-唯一配置文件为 `zensical.toml`，使用 Zensical modern 深色主题。站内搜索随中文主题启用。Pages 构建通过 `scripts/build-docs.py` 读取 `DOCS_SITE_URL`，生成根目录下的临时 TOML，构建结束后自动删除；本地直接预览无需配置环境变量。
+`zensical.toml` 定义公共主题、中文导航和页面顺序，`zensical.en.toml` 提供英文名称与导航标签。构建脚本为两种语言分别生成搜索索引与语言菜单。新增页面时，在两个内容目录中添加同路径页面，并更新导航与英文标签。Pages 构建通过 `scripts/build-docs.py` 读取 `DOCS_SITE_URL`，生成临时配置和英文构建目录，构建结束后自动清理。本地预览可直接使用默认地址。

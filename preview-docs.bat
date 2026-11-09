@@ -49,14 +49,13 @@ echo Add the site configuration and docs source files, then run this BAT again.
 goto failed
 
 :preview
-rem Refresh syntax-highlighting caches after installing the local lexer package.
-"%DOCS_PYTHON%" -m zensical build --clean --strict -f "%DOCS_CONFIG%"
+echo [3/3] Building both documentation editions...
+"%DOCS_PYTHON%" scripts\build-docs.py
 if errorlevel 1 goto failed
-echo [3/3] Starting the documentation preview...
-echo Open the full URL printed by Zensical below in your browser.
 echo Leave this window open. Press Ctrl+C to stop the preview.
-echo.
-"%DOCS_PYTHON%" -m zensical serve -f "%DOCS_CONFIG%" --dev-addr 127.0.0.1:15861
+echo Chinese: http://127.0.0.1:15861/
+echo English: http://127.0.0.1:15861/en/
+"%DOCS_PYTHON%" -m http.server 15861 --bind 127.0.0.1 --directory site
 if errorlevel 1 goto failed
 exit /b 0
 
