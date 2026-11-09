@@ -12,7 +12,7 @@
 </p>
 
 <p align="center">
-  <a href="https://markupui.labijie.com">在线文档</a> ·
+  <a href="#文档">在线文档</a> ·
   <a href="https://markupui.labijie.com/ue/getting-started/quick-start/">Unreal Engine</a> ·
   <a href="https://markupui.labijie.com/unity/getting-started/quick-start/">Unity</a> ·
   <a href="https://github.com/endink/MarkupUI/issues">问题反馈</a>
@@ -27,6 +27,11 @@ Markup UI 使用 HTML 定义界面结构，使用 CSS 设置布局与样式，�
 - **UI 交互**：将输入值写回模型，通过界面事件调用命令，也可用触发器将业务事件连接到页面行为。
 - **引擎集成**：在 Unreal Engine 中通过 UMG 显示，在 Unity 中通过 UI Toolkit 显示，并提供各平台的资产与编辑器预览工作流。
 - **C++ 与 C#**：通过 SDK 和引擎适配提供可观察数据及强类型命令。
+
+# 文档
+
+- [简体中文](https://markupui.labijie.com/)
+- [English](https://markupui.labijie.com/en/)
 
 ## 引擎支持
 
@@ -50,6 +55,4 @@ Markup UI 使用 HTML 定义界面结构，使用 CSS 设置布局与样式，�
 
 [编写第一个页面](https://markupui.labijie.com/authoring/first-page/) · [数据绑定](https://markupui.labijie.com/binding/getting-started/) · [事件与命令](https://markupui.labijie.com/binding/events-and-commands/) · [触发器](https://markupui.labijie.com/binding/triggers/)
 
-## 文档与反馈
-
-通过[在线文档](https://markupui.labijie.com)了解安装配置、模板语法及各平台的功能支持。问题、建议和功能需求可提交到 [Issues](https://github.com/endink/MarkupUI/issues)。
+问题、建议和功能需求可提交到 [Issues](https://github.com/endink/MarkupUI/issues)。
