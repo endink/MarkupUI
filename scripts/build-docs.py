@@ -27,11 +27,18 @@ def set_value(source, key, value):
     return source
 
 
-def english_nav(items, labels):
+def english_nav(items, labels, pending_pages):
     entries = []
     for item in items:
         for title, value in item.items():
-            body = english_nav(value, labels) if isinstance(value, list) else quote(value)
+            if isinstance(value, list):
+                body = english_nav(value, labels, pending_pages)
+                if body == "[]":
+                    continue
+            elif Path(value) in pending_pages:
+                continue
+            else:
+                body = quote(value)
             entries.append(f"{{ {quote(labels[title])} = {body} }}")
     return "[" + ", ".join(entries) + "]"
 
@@ -69,9 +76,13 @@ def main():
     en_docs = ROOT / localized["docs_dir"]
     zh_pages = {p.relative_to(zh_docs) for p in zh_docs.rglob("*.md")}
     en_pages = {p.relative_to(en_docs) for p in en_docs.rglob("*.md")}
-    if zh_pages != en_pages:
-        missing = ", ".join(p.as_posix() for p in sorted(zh_pages - en_pages))
-        extra = ", ".join(p.as_posix() for p in sorted(en_pages - zh_pages))
+    pending_pages = {Path(page) for page in localized.get("pending_pages", [])}
+    expected_en_pages = zh_pages - pending_pages
+    if pending_pages - zh_pages:
+        raise ValueError("Every pending English page must have a Chinese source page")
+    if expected_en_pages != en_pages:
+        missing = ", ".join(p.as_posix() for p in sorted(expected_en_pages - en_pages))
+        extra = ", ".join(p.as_posix() for p in sorted(en_pages - expected_en_pages))
         raise ValueError(f"English page set differs from Chinese. Missing: {missing}. Extra: {extra}.")
 
     alternate = (
@@ -85,7 +96,7 @@ def main():
         en_source = set_value(en_source, key, localized[key])
     en_source = en_source.replace("切换到浅色模式", "Switch to light mode")
     en_source = en_source.replace("切换到深色模式", "Switch to dark mode")
-    en_source = re.sub(r"(?ms)^nav = \[.*?^\]", lambda _: "nav = " + english_nav(project["nav"], labels), en_source)
+    en_source = re.sub(r"(?ms)^nav = \[.*?^\]", lambda _: "nav = " + english_nav(project["nav"], labels, pending_pages), en_source)
     for title in project["extra"]["navigation_icons"]:
         en_source = en_source.replace(f"{quote(title)} = ", f"{quote(labels[title])} = ")
 

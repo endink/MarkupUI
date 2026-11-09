@@ -23,11 +23,12 @@ This chapter introduces the data types supported by the SDK. Native types of pla
 | Vector | `Vector2`, `Vector3` |
 | Matrix | `Matrix4x4` |
 | Object | `Object` |
+| Structure | `Object` |
 | Collection | `Array`, `Map`, `Set` |
 | Key-Value Pairs | `KeyValue` |
 | Null Values | `Null` |
 
-Objects and collections are provided to the binding through references. Strong references maintain the lifecycle of the target object. Weak references do not extend the lifecycle of the target object. The binding can access the properties of the target object when it is still valid.
+By-value [structures](observable-objects.md#observable-struct) also use the `Object` binding type. Reference-type objects and collections are passed by reference. A strong reference keeps its target alive. A weak reference allows access while the target is alive without extending its lifetime.
 
 === "C++"
 

@@ -120,6 +120,50 @@ Output:
 
 Dynamic indexes do not change the access rules of containers: Arrays do not accept string indices. The keys of a Map still need to match the actual types. Sets still do not support indexing.
 
+### Value Converters {#value-converters}
+
+The binding reads the last property in the path and passes its value to the converter named by `converter`. The application registers the converter. A binding can pass one extra argument, either a literal or a value read from another path in the data context.
+
+#### No Parameter
+
+This example reads the entire `FullName` structure and passes it to `FormatName`. With the parameter omitted, the converter receives a null parameter.
+
+```html
+<p @text="{FullName, converter=FormatName}"></p>
+<input type="text" @value="{FullName, converter=FormatName, mode=twoWay, update=blur}">
+```
+
+Both the text and input display the converted name. When the input loses focus and submits an edit, `FormatName` can return a complete name structure for the binding to write back to `FullName`.
+
+#### Literal Parameter
+
+Both forms read the amount from `Order.Price` and pass the string `'USD'` to `Currency` as a separate parameter.
+
+```html
+<!-- Inline form -->
+<span @text="{Order.Price, converter={Currency, parameter={'USD'}}}"></span>
+
+<!-- Expanded form -->
+<span @text="{Order.Price}" @text.converter="Currency" @text.converter.parameter="'USD'"></span>
+```
+
+If `Order.Price` is `10`, `Currency` can display it as `USD 10.00`. The converter defines the display format.
+
+#### Object Parameter
+
+Suppose the current data context exposes a `FormatOptions` object with `CurrencyCode` and `DecimalPlaces` properties. The binding passes `Order.Price` as the value and the `FormatOptions` object as a separate parameter to `PriceWithOptions`. Write the `FormatOptions` path without quotation marks.
+
+```html
+<!-- Inline form -->
+<span @text="{Order.Price, converter={PriceWithOptions, parameter={FormatOptions}}}"></span>
+
+<!-- Expanded form -->
+<span @text="{Order.Price}" @text.converter="PriceWithOptions"
+      @text.converter.parameter="{FormatOptions}"></span>
+```
+
+The converter can read the parameter object's properties to determine the format. For example, with `CurrencyCode` set to `"USD"` and `DecimalPlaces` set to `2`, the amount `10` can display as `USD 10.00`. See [Value Converters](value-converters.md) for definition, registration, and writeback examples.
+
 ## Literal Values
 
 | Categories | Writing Method | Explanation |
@@ -662,20 +706,7 @@ Output:
 <input value="Alice">
 ```
 
-The converter is specified through `converter`, and parameters can be provided through `converter.parameter`. Converters need to be provided by the application. They are not functions that can be directly called by the expression:
-
-```html
-<!-- Currency is the name of a converter provided by the application. -->
-<span @text="{Price}" @text.converter="Currency" @text.converter.parameter="'USD'"></span>
-```
-
-Suppose `Price` is set to `10`. The `Currency` converter provided by the application formats this value as `USD 10.00`.
-
-Output:
-
-```html
-<span>USD 10.00</span>
-```
+See [Value Converters](#value-converters) for inline and expanded converter options.
 
 `mode`, `update`, converter, and event parameters are options specified for each binding. They are not general operators, and these comma-separated options cannot be directly included in `{{ ... }}`. For details on modes and update times, see [Data Binding Overview](getting-started.md).
 

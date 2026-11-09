@@ -448,12 +448,12 @@ The commands within the loop locate the player object using `@player`. The param
 !!! note "The command path is not a function call."
     Use `{Save}`, do not write `{Save()}` or `{Save(Name)}`. The template does not execute JavaScript; `onclick="Save()"` will not automatically become a command binding. Parameters are declared using `parameter`.
 
-### The syntax for parameter converters is {#command-parameter-converters}
+### Parameter Converters {#command-parameter-converters}
 
 In the parameter list, each individual parameter can use nested binding expressions to declare converters. The parameters of the converters themselves are placed in their `parameter` fields. The following example demonstrates the syntax.
 
-!!! warning "The value converter has not been implemented yet."
-    The current value converter has not been implemented, and `converter` is invalid. The following notation will not perform the `Trim` or `ToInt` conversions, so it is not possible to rely on them to remove white spaces or convert parameter types.
+!!! warning "Command Parameter Converters"
+    The examples below illustrate the syntax. The current version skips parameter converters when invoking commands. See [Value Converters](value-converters.md) for text display and input writeback.
 
 Inline notation:
 

@@ -32,11 +32,12 @@ The notification name must be the same as the bound property name. Directly modi
 
 #### ObservableObject
 
-Inherit from `ObservableObject`, declare properties using `MARKUPUI_PROPERTY` and generate access functions. When calling the generated set functions, the SDK is responsible for sending notifications of property changes.
+Derive from `ObservableObject` and declare properties with `MARKUPUI_PROPERTY`. The macro generates accessors, and the generated setters send property change notifications.
 
 ```cpp
 #include <cstdint>
 #include <memory>
+#include <string>
 #include <markupui/binding/modeling/object_model.h>
 
 class PlayerObject final : public MarkupUI::Binding::Modeling::ObservableObject
@@ -48,15 +49,16 @@ public:
     }
 
     MARKUPUI_PROPERTY(PlayerObject, int32_t, Health, 100)
-    MARKUPUI_PROPERTY(PlayerObject, int32_t, Mana, 50)
+    MARKUPUI_PROPERTY(PlayerObject, std::string, Name, "Alice")
 };
 ```
 
-The following is the equivalent code without using property macros:
+The following code registers the same properties by hand.
 
 ```cpp
 #include <cstdint>
 #include <memory>
+#include <string>
 #include <markupui/binding/modeling/object_model.h>
 
 class PlayerObject final : public MarkupUI::Binding::Modeling::ObservableObject
@@ -67,8 +69,8 @@ public:
     inline static const Property HealthProperty =
         Property::Register<PlayerObject, int32_t>("Health", 100);
 
-    inline static const Property ManaProperty =
-        Property::Register<PlayerObject, int32_t>("Mana", 50);
+    inline static const Property NameProperty =
+        Property::Register<PlayerObject, std::string>("Name", "Alice");
 
     PlayerObject()
     {
@@ -77,7 +79,7 @@ public:
 
     int32_t GetHealth() const
     {
-        return *GetValue<int32_t>(HealthProperty);
+        return GetValue<int32_t>(HealthProperty);
     }
 
     void SetHealth(int32_t value)
@@ -85,53 +87,54 @@ public:
         SetValue(HealthProperty, value);
     }
 
-    int32_t GetMana() const
+    const std::string& GetName() const
     {
-        return *GetValue<int32_t>(ManaProperty);
+        return GetValue<std::string>(NameProperty);
     }
 
-    void SetMana(int32_t value)
+    void SetName(const std::string& value)
     {
-        SetValue(ManaProperty, value);
+        SetValue(NameProperty, value);
     }
 };
 ```
 
-When updating properties through set functions, notifications of property changes are automatically sent:
+The setters send property change notifications when the values change.
 
 ```cpp
 auto player = std::make_shared<PlayerObject>();
 
-player->SetHealth(80); // Notify listeners that Health changed.
-player->SetMana(40);   // Notify listeners that Mana changed.
+player->SetHealth(80);    // Notify that Health changed.
+player->SetName("Grace"); // Notify that Name changed.
 ```
 
-!!! note "The type must be initialized."
-    When inheriting from `ObservableObject`, it is necessary to call `InitializeType<T>()` in the constructor, where `T` represents the type of the current class, for example, `InitializeType<PlayerObject>()`.
+!!! note "Initialize the Type"
+    Call `InitializeType<T>()` in the constructor of a class derived from `ObservableObject`. Use the concrete class as `T`, such as `InitializeType<PlayerObject>()`.
 
-#### Ordinary observable classes
+#### Plain Classes {#ordinary-observable-classes}
 
-Existing classes can expose members using macros such as `MARKUPUI_SUPPORT_BEGIN`, `MARKUPUI_MEMBER`, and `MARKUPUI_SUPPORT_END`, without changing the inheritance relationship. After assigning members, active notification is required.
+Use `MARKUPUI_SUPPORT_BEGIN`, `MARKUPUI_MEMBER`, and `MARKUPUI_SUPPORT_END` to expose members of an existing class. Send a notification after assigning to a field directly.
 
 ```cpp
 #include <cstdint>
 #include <memory>
+#include <string>
 #include <markupui/binding/modeling/object_model.h>
 
 class PlayerObject final
 {
 public:
     int32_t Health = 100;
-    int32_t Mana = 50;
+    std::string Name = "Alice";
 
     MARKUPUI_SUPPORT_BEGIN(PlayerObject)
         MARKUPUI_MEMBER(Health)
-        MARKUPUI_MEMBER(Mana)
+        MARKUPUI_MEMBER(Name)
     MARKUPUI_SUPPORT_END()
 };
 ```
 
-After updating the property, manually send the property change notification:
+After changing a property, send a notification for that property.
 
 ```cpp
 auto player = std::make_shared<PlayerObject>();
@@ -139,22 +142,23 @@ auto player = std::make_shared<PlayerObject>();
 player->Health = 80;
 MarkupUI::Binding::NotifyPropertyChanged(*player, "Health");
 
-player->Mana = 40;
-MarkupUI::Binding::NotifyPropertyChanged(*player, "Mana");
+player->Name = "Grace";
+MarkupUI::Binding::NotifyPropertyChanged(*player, "Name");
 ```
 
-It is recommended to use Get/Set to access the property. Concentrate the assignment and change notifications in the Set method to prevent the caller from missing the notifications. When using member macros, you can write like this:
+To keep assignment and notification together, provide getters and setters. The example below uses member macros.
 
 ```cpp
 #include <cstdint>
 #include <memory>
+#include <string>
 #include <markupui/binding/modeling/object_model.h>
 
 class PlayerObject final
 {
 private:
     int32_t Health = 100;
-    int32_t Mana = 50;
+    std::string Name = "Alice";
 
 public:
     int32_t GetHealth() const
@@ -173,38 +177,41 @@ public:
         }
     }
 
-    int32_t GetMana() const
+    const std::string& GetName() const
     {
-        return Mana;
+        return Name;
     }
 
-    void SetMana(int32_t value)
+    void SetName(const std::string& value)
     {
         using MarkupUI::Binding::NotifyPropertyChanged;
 
-        if (Mana != value)
+        if (Name != value)
         {
-            Mana = value;
-            NotifyPropertyChanged(*this, "Mana");
+            Name = value;
+            NotifyPropertyChanged(*this, "Name");
         }
     }
 
     MARKUPUI_SUPPORT_BEGIN(PlayerObject)
         MARKUPUI_MEMBER(Health)
-        MARKUPUI_MEMBER(Mana)
+        MARKUPUI_MEMBER(Name)
     MARKUPUI_SUPPORT_END()
 };
 
 auto player = std::make_shared<PlayerObject>();
 player->SetHealth(80);
-player->SetMana(40);
+player->SetName("Grace");
 ```
 
 ### C# implementation
 
-Compared to C++, the C# implementation is simpler: The class only needs to implement the `INotifyPropertyChanged` interface and trigger the `PropertyChanged` event when the property changes, so that it can be used as an observable object.
+Implement `INotifyPropertyChanged` and raise `PropertyChanged` when a property changes.
 
-#### Implement property change notification
+!!! important "Notify on the Outer Property"
+    A C# `struct` can be stored in a field and exposed to bindings through a property. When a member changes, the containing object raises `PropertyChanged` for the whole property. For example, after changing `FullName.FirstName`, notify `FullName`. The inner member cannot notify the binding independently.
+
+#### Property Changes {#implement-property-change-notification}
 
 ```csharp
 using System.ComponentModel;
@@ -212,9 +219,9 @@ using System.ComponentModel;
 public class PlayerObject : INotifyPropertyChanged
 {
     private int _health = 100;
-    private int _mana = 50;
+    private string _name = "Alice";
 
-    public event PropertyChangedEventHandler PropertyChanged;
+    public event PropertyChangedEventHandler? PropertyChanged;
 
     public int Health
     {
@@ -225,35 +232,150 @@ public class PlayerObject : INotifyPropertyChanged
             {
                 _health = value;
                 PropertyChanged?.Invoke(
-                    this, new PropertyChangedEventArgs("Health"));
+                    this, new PropertyChangedEventArgs(nameof(Health)));
             }
         }
     }
 
-    public int Mana
+    public string Name
     {
-        get { return _mana; }
+        get { return _name; }
         set
         {
-            if (_mana != value)
+            if (_name != value)
             {
-                _mana = value;
+                _name = value;
                 PropertyChanged?.Invoke(
-                    this, new PropertyChangedEventArgs("Mana"));
+                    this, new PropertyChangedEventArgs(nameof(Name)));
             }
         }
     }
 }
 ```
 
-When updating the property through the property setter, send the property change notification:
+The property setters send notifications when the values change.
 
 ```csharp
 var player = new PlayerObject();
 
 player.Health = 80;
-player.Mana = 40;
+player.Name = "Grace";
 ```
+
+## Structures {#observable-struct}
+
+An observable structure is an observable object stored and passed by value. In C++, define it with a `class` or `struct` that meets the binding requirements.
+
+### Definition
+
+=== "C++"
+
+    `Name` uses `MARKUPUI_MEMBER` to expose `FirstName` and `LastName`. If the containing model declares a field `Name FullName;`, expose it with `MARKUPUI_MEMBER(FullName)`. A non-`const`, copy-assignable structure field supports whole-value writeback from a converter. Member paths through a `const` field are read-only.
+
+    ```cpp
+    #include <markupui/binding/modeling/object_model.h>
+    #include <string>
+
+    struct Name
+    {
+        std::string FirstName = "Ada";
+        std::string LastName = "Lovelace";
+
+        MARKUPUI_SUPPORT_BEGIN(Name)
+            MARKUPUI_MEMBER(FirstName)
+            MARKUPUI_MEMBER(LastName)
+        MARKUPUI_SUPPORT_END()
+    };
+    ```
+
+=== "C#"
+
+    Define `Name` as a regular `struct` with two public fields, `FirstName` and `LastName`.
+
+    ```csharp
+    public struct Name
+    {
+        public string FirstName;
+        public string LastName;
+    }
+    ```
+
+### Usage
+
+=== "C++"
+
+    In an `ObservableObject` subclass, use `MARKUPUI_PROPERTY` to store `FullName` by value. If you omit the default, `Name` is default-constructed. To register it by hand, use `Property::Register<Profile, Name>("FullName")`. For shared object properties, specify the full pointer type, as in `Property::Register<Profile, std::shared_ptr<Other>>("Other")`.
+
+    ```cpp
+    class Profile : public MarkupUI::Binding::Modeling::ObservableObject
+    {
+    public:
+        Profile()
+        {
+            InitializeType<Profile>();
+        }
+
+        MARKUPUI_PROPERTY(Profile, Name, FullName)
+    };
+    ```
+
+    `GetFullName()` returns `const Name&`. Getters for strings and built-in SDK structures likewise return `const T&`. Copy the current value, edit the copy, and submit it. Here `profile` points to the current data context.
+
+    ```cpp
+    Name fullName = profile->GetFullName();
+    fullName.FirstName = "Grace";
+    profile->SetFullName(fullName);
+    ```
+
+=== "C#"
+
+    Expose a `Name FullName` property on the containing object. Its setter accepts the whole structure and raises `PropertyChanged` for `FullName`.
+
+    ```csharp
+    using System.ComponentModel;
+
+    public sealed class Profile : INotifyPropertyChanged
+    {
+        private Name _fullName;
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        public Profile()
+        {
+            _fullName.FirstName = "Ada";
+            _fullName.LastName = "Lovelace";
+        }
+
+        public Name FullName
+        {
+            get => _fullName;
+            set
+            {
+                _fullName = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FullName)));
+            }
+        }
+    }
+    ```
+
+    Reading `FullName` gives you a copy. Edit it, then assign the whole structure back to the property. Here `profile` is the current data context.
+
+    ```csharp
+    Name fullName = profile.FullName;
+    fullName.FirstName = "Grace";
+    profile.FullName = fullName;
+    ```
+
+!!! important "Notify on the Whole Structure"
+    Members of a by-value structure cannot notify the binding independently. After editing a copy, pass the whole value to the containing object's setter. The containing object sends the notification for `FullName`.
+
+Set a `Profile` instance as the page's [data context](../concepts/data-context.md) to read individual members through `FullName`.
+
+```html
+<p>{{ FullName.FirstName }} {{ FullName.LastName }}</p>
+```
+
+To edit the full name in one input, bind it to `FullName` and use a [value converter](value-converters.md) that returns a complete `Name`.
 
 ## Collection
 
@@ -369,9 +491,11 @@ The element type of `rows` is derived from `firstRow` and `secondRow`. The outer
 !!! info "Collection interface"
     Observable collections are based on three interfaces: `IArray<T>`, `IMap<TKey, TValue>`, and `ISet<T>`. The SDK's `ObservableArray<T>`, `ObservableMap<TKey, TValue>`, and `ObservableSet<T>` implement these interfaces respectively.
 
-#### Collection notifications in object properties
+#### Collection Notifications {#collection-notifications-in-object-properties}
 
-Collections can be exposed through property macros or member macros.
+Expose a collection with a property macro or a member macro.
+
+**With ObservableObject**
 
 ```cpp
 class PlayerObject final : public MarkupUI::Binding::Modeling::ObservableObject
@@ -380,11 +504,13 @@ public:
     template<class T>
     using ObservableArray = MarkupUI::Binding::Modeling::ObservableArray<T>;
 
-    // The constructor and other properties are omitted.
+    // Constructor and other properties omitted.
 
     MARKUPUI_PROPERTY(PlayerObject, ObservableArray<int32_t>, Numbers)
 };
 ```
+
+**Without ObservableObject**
 
 ```cpp
 class PlayerObject final
@@ -395,7 +521,7 @@ public:
 
     ObservableArray<int32_t> Numbers = ObservableArray<int32_t>::From(std::vector<int32_t>{});
 
-    // Other properties and member functions are omitted.
+    // Other properties and methods omitted.
 
     MARKUPUI_SUPPORT_BEGIN(PlayerObject)
         MARKUPUI_MEMBER(Numbers)
@@ -403,9 +529,11 @@ public:
 };
 ```
 
-When modifying the content through the collection interface, it is notified by the collection itself. When replacing the entire collection property, the property change is notified by the object.
+When you modify a collection through its interface, the collection sends the notification. When you replace the whole collection property, the containing object sends a property change notification.
 
 ### C# implementation
+
+For a binding to update when collection contents change, the collection instance must implement `INotifyCollectionChanged`. Use .NET's `ObservableCollection<T>` or the `ObservableHashSet<T>` and `ObservableDictionary<TKey, TValue>` types provided by Markup UI.
 
 #### ObservableCollection: List
 
@@ -456,51 +584,127 @@ When adding, deleting, or replacing the value corresponding to a key, the dictio
 
 When operating on the above collections through `IList<T>`, `ISet<T>`, or `IDictionary<TKey, TValue>`, the notification is still sent by the corresponding instance. Ordinary `List<T>`, `HashSet<T>`, and `Dictionary<TKey, TValue>` do not provide collection change notifications.
 
-## Object nesting
+## Object Nesting
 
-When an object property references another observable object, access can continue along the property path. For example, `Player.Weapon.Name`. Each layer of objects is responsible for notifying the changes in its own properties:
+When a property references another observable object, a path can read that object's properties, as in `Player.Weapon.Name`. Each object reports changes to its own properties.
 
-- When the name of a weapon is modified, the `Name` property is notified by the weapon object.
-- When a player's weapon is replaced, the `Weapon` object is notified of the change.
-- After setting `Weapon` to null and notifying the change, the binding can no longer read the old weapon along the original path.
+- When the weapon name changes, the weapon object notifies `Name`.
+- When the player gets a different weapon, the player object notifies `Weapon`.
+- After `Weapon` is set to null and the player object notifies the change, the old weapon is no longer available through the path.
 
-Replacing an object and modifying its internal properties are two different operations. Modifying `Weapon.Name` does not require resetting the entire `Player` to the data context, but the `Weapon` must be able to notify changes in the `Name` property.
+Editing `Weapon.Name` keeps the current `Player` data context. The `Weapon` object must send a notification for `Name`.
 
 === "C++"
 
-    Using `std::shared_ptr<WeaponObject>` provides nested objects, allowing the SDK to subscribe to changes in the properties of weapon objects.
+    Declare `Weapon` as a `std::shared_ptr<WeaponObject>` property on `PlayerObject`. The player object shares ownership of the weapon.
 
     ```cpp
-    // See Basic Binding for the definitions of PlayerObject and WeaponObject.
+    #include <markupui/binding/modeling/object_model.h>
+    #include <memory>
+    #include <string>
+
+    class WeaponObject final : public MarkupUI::Binding::Modeling::ObservableObject
+    {
+    public:
+        WeaponObject()
+        {
+            InitializeType<WeaponObject>();
+        }
+
+        MARKUPUI_PROPERTY(WeaponObject, std::string, Name, "Sword")
+    };
+
+    class PlayerObject final : public MarkupUI::Binding::Modeling::ObservableObject
+    {
+    public:
+        PlayerObject()
+        {
+            InitializeType<PlayerObject>();
+        }
+
+        MARKUPUI_PROPERTY(PlayerObject, std::shared_ptr<WeaponObject>, Weapon)
+    };
+    ```
+
+    **Usage**
+
+    ```cpp
     auto weapon = std::make_shared<WeaponObject>();
     auto player = std::make_shared<PlayerObject>();
     player->SetWeapon(weapon);
 
-    // Update the current weapon. The weapon object sends the Name property notification.
+    // Rename the current weapon. The weapon notifies Name.
     weapon->SetName("Bow");
 
-    // Replace the weapon. The player object sends the Weapon property notification.
+    // Replace the weapon. The player notifies Weapon.
     player->SetWeapon(std::make_shared<WeaponObject>());
     ```
 
 === "C#"
 
-    Weapon objects notify changes in their internal properties through `INotifyPropertyChanged`. Player objects notify weapon replacements through the same interface.
+    Declare `Weapon` as a `WeaponObject` reference on `PlayerObject`. Each class implements `INotifyPropertyChanged`.
 
     ```csharp
-    // See Basic Binding for the definitions of PlayerObject and WeaponObject.
+    using System.ComponentModel;
+
+    public sealed class WeaponObject : INotifyPropertyChanged
+    {
+        private string _name = "Sword";
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                if (_name == value)
+                {
+                    return;
+                }
+
+                _name = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Name)));
+            }
+        }
+    }
+
+    public sealed class PlayerObject : INotifyPropertyChanged
+    {
+        private WeaponObject? _weapon;
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        public WeaponObject? Weapon
+        {
+            get => _weapon;
+            set
+            {
+                if (ReferenceEquals(_weapon, value))
+                {
+                    return;
+                }
+
+                _weapon = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Weapon)));
+            }
+        }
+    }
+    ```
+
+    **Usage**
+
+    ```csharp
     var weapon = new WeaponObject();
     var player = new PlayerObject();
     player.Weapon = weapon;
 
-    // Update the current weapon. The weapon object sends the Name property notification.
+    // Rename the current weapon. The weapon notifies Name.
     weapon.Name = "Bow";
 
-    // Replace the weapon. The player object sends the Weapon property notification.
+    // Replace the weapon. The player notifies Weapon.
     player.Weapon = new WeaponObject();
     ```
-
-The object definitions and complete property setters are described in [Basic Binding](basic-binding.md).
 
 ## Value-based nesting and shared references
 

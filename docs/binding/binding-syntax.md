@@ -120,6 +120,50 @@ Map 的整数键表示键值，不代表遍历位置。字符串键应使用单�
 
 动态索引不会改变容器的访问规则：Array 不接受字符串下标，Map 的键仍须与实际类型匹配，Set 仍不支持索引。
 
+### 值转换器 {#value-converters}
+
+属性路径先读取最后一个属性的值，再由 `converter` 指定的值转换器处理。转换器由应用注册。绑定可以提供一个额外参数，参数可以是字面量，也可以通过另一条属性路径从数据上下文读取。
+
+#### 不带参数
+
+下例从 `FullName` 读取整个姓名结构，交给 `FormatName` 转换。省略参数时，转换器的参数为空。
+
+```html
+<p @text="{FullName, converter=FormatName}"></p>
+<input type="text" @value="{FullName, converter=FormatName, mode=twoWay, update=blur}">
+```
+
+文本和输入框都使用转换后的姓名。输入框失去焦点并提交编辑时，`FormatName` 的反向转换可以返回完整的姓名结构，再由绑定写回 `FullName`。
+
+#### 传入固定参数
+
+下面两种写法都从 `Order.Price` 读取金额，并把字符串 `'USD'` 作为额外参数传给 `Currency`。
+
+```html
+<!-- 内联写法 -->
+<span @text="{Order.Price, converter={Currency, parameter={'USD'}}}"></span>
+
+<!-- 展开写法 -->
+<span @text="{Order.Price}" @text.converter="Currency" @text.converter.parameter="'USD'"></span>
+```
+
+假设 `Order.Price` 为 `10`，`Currency` 可以把它显示为 `USD 10.00`。显示格式由转换器定义。
+
+#### 传入绑定对象
+
+假设当前数据上下文有一个 `FormatOptions` 对象，包含 `CurrencyCode` 和 `DecimalPlaces` 属性。下例把 `Order.Price` 作为要转换的值，把 `FormatOptions` 对象作为一个参数交给 `PriceWithOptions`。属性路径 `FormatOptions` 无需加引号。
+
+```html
+<!-- 内联写法 -->
+<span @text="{Order.Price, converter={PriceWithOptions, parameter={FormatOptions}}}"></span>
+
+<!-- 展开写法 -->
+<span @text="{Order.Price}" @text.converter="PriceWithOptions"
+      @text.converter.parameter="{FormatOptions}"></span>
+```
+
+转换器可以读取参数对象中的属性来决定格式。例如，`CurrencyCode` 为 `"USD"`、`DecimalPlaces` 为 `2` 时，将金额 `10` 显示为 `USD 10.00`。定义、注册和写回示例见[值转换器](value-converters.md)。
+
 ## 字面量
 
 | 类别 | 写法 | 说明 |
@@ -662,20 +706,7 @@ XML 兼容模板的完整规则见[XHTML 支持](xhtml-support.md)。
 <input value="Alice">
 ```
 
-转换器通过 `converter` 指定，可通过 `converter.parameter` 提供参数。转换器需要由应用提供，不是表达式可以直接调用的函数：
-
-```html
-<!-- Currency 是应用已提供的转换器名称 -->
-<span @text="{Price}" @text.converter="Currency" @text.converter.parameter="'USD'"></span>
-```
-
-假设 `Price` 为 `10`，应用提供的 `Currency` 转换器将该值格式化为 `USD 10.00`。
-
-输出：
-
-```html
-<span>USD 10.00</span>
-```
+转换器选项的内联和展开写法见[值转换器](#value-converters)。
 
 `mode`、`update`、转换器和事件参数属于各绑定声明的选项，不是通用运算符，也不能把这些逗号选项直接写进 `{{ ... }}`。模式与更新时机见[数据绑定概述](getting-started.md)。
 

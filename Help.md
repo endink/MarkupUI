@@ -4,14 +4,14 @@
 
 ## 本地预览
 
-安装 Python 3.11 或更高版本后，双击 `preview-docs.bat`。脚本创建 `.venv-zensical`、安装依赖并构建中英文站点。打开 [中文首页](http://127.0.0.1:15861/) 或 [英文首页](http://127.0.0.1:15861/en/)，也可以通过页眉的语言菜单切换。编辑后重新运行脚本以刷新预览，按 Ctrl+C 停止。
+安装 Python 3.11 或更高版本后，双击 `preview-docs.bat`。脚本创建 `.venv-zensical`、安装依赖并构建中英文站点。打开 [中文首页](http://127.0.0.1:15861/) 或 [英文首页](http://127.0.0.1:15861/en/)，也可以通过页眉的语言菜单切换。保存修改后，脚本自动重建中英文站点，浏览器会在构建成功后刷新当前页面。按 Ctrl+C 停止。
 
-也可手动运行中文实时预览：
+也可手动启动双语实时预览。
 
 ```powershell
 py -3 -m venv .venv-zensical
 .\.venv-zensical\Scripts\python.exe -m pip install -r requirements-docs.txt
-.\.venv-zensical\Scripts\python.exe -m zensical serve
+.\.venv-zensical\Scripts\python.exe scripts/preview-docs.py
 ```
 
 ## 构建检查
@@ -20,7 +20,7 @@ py -3 -m venv .venv-zensical
 .\.venv-zensical\Scripts\python.exe scripts/build-docs.py
 ```
 
-构建会检查中英文页面是否一一对应，并以严格模式分别生成 `site/` 和 `site/en/`。生成文件无需提交。依赖版本在 `requirements-docs.txt` 中统一维护。
+构建会检查中英文页面是否一一对应，允许显式登记的待翻译页面仅出现在中文站点，并以严格模式分别生成 `site/` 和 `site/en/`。生成文件无需提交。依赖版本在 `requirements-docs.txt` 中统一维护。
 
 ## GitHub Pages
 
@@ -50,4 +50,4 @@ C++ 使用 `cpp`，C# 使用 `csharp`；也支持原有别名。只有 UE 宏、
 
 `markupui_highlighter` 扩展会在每个 Markdown 实例中注册提供者，普通正文的增量更新无需清理缓存。修改高亮器后重新运行 `preview-docs.bat`，脚本会安装依赖、执行严格清洁构建后启动预览。`scripts/check-highlight-preview.py` 在隔离站点连续修改页面，检查代码块、行内代码及内嵌语言的高亮；此检查与禁止 Pygments 高亮调用的回归测试均在 CI 中运行。
 
-`zensical.toml` 定义公共主题、中文导航和页面顺序，`zensical.en.toml` 提供英文名称与导航标签。构建脚本为两种语言分别生成搜索索引与语言菜单。新增页面时，在两个内容目录中添加同路径页面，并更新导航与英文标签。Pages 构建通过 `scripts/build-docs.py` 读取 `DOCS_SITE_URL`，生成临时配置和英文构建目录，构建结束后自动清理。本地预览可直接使用默认地址。
+`zensical.toml` 定义公共主题、中文导航和页面顺序，`zensical.en.toml` 提供英文名称与导航标签。构建脚本为两种语言分别生成搜索索引与语言菜单。新增页面时，在两个内容目录中添加同路径页面，并更新导航与英文标签。先审核中文稿时，可把页面路径加入 `zensical.en.toml` 的 `pending_pages`。补齐译文和英文导航标签后，从该列表移除页面路径。Pages 构建通过 `scripts/build-docs.py` 读取 `DOCS_SITE_URL`，生成临时配置和英文构建目录，构建结束后自动清理。本地预览可直接使用默认地址。

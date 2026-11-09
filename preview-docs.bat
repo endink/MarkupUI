@@ -49,13 +49,8 @@ echo Add the site configuration and docs source files, then run this BAT again.
 goto failed
 
 :preview
-echo [3/3] Building both documentation editions...
-"%DOCS_PYTHON%" scripts\build-docs.py
-if errorlevel 1 goto failed
-echo Leave this window open. Press Ctrl+C to stop the preview.
-echo Chinese: http://127.0.0.1:15861/
-echo English: http://127.0.0.1:15861/en/
-"%DOCS_PYTHON%" -m http.server 15861 --bind 127.0.0.1 --directory site
+echo [3/3] Starting the bilingual live preview...
+"%DOCS_PYTHON%" scripts\preview-docs.py
 if errorlevel 1 goto failed
 exit /b 0
 

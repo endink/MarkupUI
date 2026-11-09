@@ -37,6 +37,7 @@ icon: bootstrap/diagram-3
 ```cpp
 #include <cstdint>
 #include <memory>
+#include <string>
 #include <markupui/binding/modeling/object_model.h>
 
 class PlayerObject final : public MarkupUI::Binding::Modeling::ObservableObject
@@ -48,7 +49,7 @@ public:
     }
 
     MARKUPUI_PROPERTY(PlayerObject, int32_t, Health, 100)
-    MARKUPUI_PROPERTY(PlayerObject, int32_t, Mana, 50)
+    MARKUPUI_PROPERTY(PlayerObject, std::string, Name, "Alice")
 };
 ```
 
@@ -57,6 +58,7 @@ public:
 ```cpp
 #include <cstdint>
 #include <memory>
+#include <string>
 #include <markupui/binding/modeling/object_model.h>
 
 class PlayerObject final : public MarkupUI::Binding::Modeling::ObservableObject
@@ -67,8 +69,8 @@ public:
     inline static const Property HealthProperty =
         Property::Register<PlayerObject, int32_t>("Health", 100);
 
-    inline static const Property ManaProperty =
-        Property::Register<PlayerObject, int32_t>("Mana", 50);
+    inline static const Property NameProperty =
+        Property::Register<PlayerObject, std::string>("Name", "Alice");
 
     PlayerObject()
     {
@@ -77,7 +79,7 @@ public:
 
     int32_t GetHealth() const
     {
-        return *GetValue<int32_t>(HealthProperty);
+        return GetValue<int32_t>(HealthProperty);
     }
 
     void SetHealth(int32_t value)
@@ -85,14 +87,14 @@ public:
         SetValue(HealthProperty, value);
     }
 
-    int32_t GetMana() const
+    const std::string& GetName() const
     {
-        return *GetValue<int32_t>(ManaProperty);
+        return GetValue<std::string>(NameProperty);
     }
 
-    void SetMana(int32_t value)
+    void SetName(const std::string& value)
     {
-        SetValue(ManaProperty, value);
+        SetValue(NameProperty, value);
     }
 };
 ```
@@ -102,8 +104,8 @@ public:
 ```cpp
 auto player = std::make_shared<PlayerObject>();
 
-player->SetHealth(80); // 通知 Health 变化。
-player->SetMana(40);   // 通知 Mana 变化。
+player->SetHealth(80);    // 通知 Health 变化。
+player->SetName("Grace"); // 通知 Name 变化。
 ```
 
 !!! note "必须初始化类型"
@@ -116,17 +118,18 @@ player->SetMana(40);   // 通知 Mana 变化。
 ```cpp
 #include <cstdint>
 #include <memory>
+#include <string>
 #include <markupui/binding/modeling/object_model.h>
 
 class PlayerObject final
 {
 public:
     int32_t Health = 100;
-    int32_t Mana = 50;
+    std::string Name = "Alice";
 
     MARKUPUI_SUPPORT_BEGIN(PlayerObject)
         MARKUPUI_MEMBER(Health)
-        MARKUPUI_MEMBER(Mana)
+        MARKUPUI_MEMBER(Name)
     MARKUPUI_SUPPORT_END()
 };
 ```
@@ -139,8 +142,8 @@ auto player = std::make_shared<PlayerObject>();
 player->Health = 80;
 MarkupUI::Binding::NotifyPropertyChanged(*player, "Health");
 
-player->Mana = 40;
-MarkupUI::Binding::NotifyPropertyChanged(*player, "Mana");
+player->Name = "Grace";
+MarkupUI::Binding::NotifyPropertyChanged(*player, "Name");
 ```
 
 推荐使用 Get/Set 包装属性访问，将赋值和变更通知集中在 Set 中，避免调用方遗漏通知。使用成员宏时可以这样编写：
@@ -148,13 +151,14 @@ MarkupUI::Binding::NotifyPropertyChanged(*player, "Mana");
 ```cpp
 #include <cstdint>
 #include <memory>
+#include <string>
 #include <markupui/binding/modeling/object_model.h>
 
 class PlayerObject final
 {
 private:
     int32_t Health = 100;
-    int32_t Mana = 50;
+    std::string Name = "Alice";
 
 public:
     int32_t GetHealth() const
@@ -173,36 +177,39 @@ public:
         }
     }
 
-    int32_t GetMana() const
+    const std::string& GetName() const
     {
-        return Mana;
+        return Name;
     }
 
-    void SetMana(int32_t value)
+    void SetName(const std::string& value)
     {
         using MarkupUI::Binding::NotifyPropertyChanged;
 
-        if (Mana != value)
+        if (Name != value)
         {
-            Mana = value;
-            NotifyPropertyChanged(*this, "Mana");
+            Name = value;
+            NotifyPropertyChanged(*this, "Name");
         }
     }
 
     MARKUPUI_SUPPORT_BEGIN(PlayerObject)
         MARKUPUI_MEMBER(Health)
-        MARKUPUI_MEMBER(Mana)
+        MARKUPUI_MEMBER(Name)
     MARKUPUI_SUPPORT_END()
 };
 
 auto player = std::make_shared<PlayerObject>();
 player->SetHealth(80);
-player->SetMana(40);
+player->SetName("Grace");
 ```
 
 ### C# 实现
 
 相比 C++，C# 的实现更简单：类只需实现 `INotifyPropertyChanged` 接口，并在属性变化时触发 `PropertyChanged` 事件，即可作为可观察对象使用。
+
+!!! important "结构成员变更由外层属性通知"
+    C# 的 `struct` 可以作为类的字段，并通过属性公开给绑定。修改结构内部成员时，由外层对象对整个属性发送 `PropertyChanged`。例如，修改 `FullName.FirstName` 后，应通知 `FullName`，结构内部成员不能独立发送绑定通知。
 
 #### 实现属性变更通知
 
@@ -212,9 +219,9 @@ using System.ComponentModel;
 public class PlayerObject : INotifyPropertyChanged
 {
     private int _health = 100;
-    private int _mana = 50;
+    private string _name = "Alice";
 
-    public event PropertyChangedEventHandler PropertyChanged;
+    public event PropertyChangedEventHandler? PropertyChanged;
 
     public int Health
     {
@@ -225,21 +232,21 @@ public class PlayerObject : INotifyPropertyChanged
             {
                 _health = value;
                 PropertyChanged?.Invoke(
-                    this, new PropertyChangedEventArgs("Health"));
+                    this, new PropertyChangedEventArgs(nameof(Health)));
             }
         }
     }
 
-    public int Mana
+    public string Name
     {
-        get { return _mana; }
+        get { return _name; }
         set
         {
-            if (_mana != value)
+            if (_name != value)
             {
-                _mana = value;
+                _name = value;
                 PropertyChanged?.Invoke(
-                    this, new PropertyChangedEventArgs("Mana"));
+                    this, new PropertyChangedEventArgs(nameof(Name)));
             }
         }
     }
@@ -252,8 +259,123 @@ public class PlayerObject : INotifyPropertyChanged
 var player = new PlayerObject();
 
 player.Health = 80;
-player.Mana = 40;
+player.Name = "Grace";
 ```
+
+## 结构 {#observable-struct}
+
+可观察结构是按值持有和传递的可观察对象。C++ 中可以用符合绑定要求的 `class` 定义，也可以直接定义为 `struct`。
+
+### 定义
+
+=== "C++"
+
+    下面的 `Name` 用 `MARKUPUI_MEMBER` 公开 `FirstName` 和 `LastName`。如果外层模型直接声明 `Name FullName;`，也用 `MARKUPUI_MEMBER(FullName)` 公开它。非 `const` 且可复制赋值的结构字段支持转换器整体写回，`const` 字段的成员路径只读。
+
+    ```cpp
+    #include <markupui/binding/modeling/object_model.h>
+    #include <string>
+
+    struct Name
+    {
+        std::string FirstName = "Ada";
+        std::string LastName = "Lovelace";
+
+        MARKUPUI_SUPPORT_BEGIN(Name)
+            MARKUPUI_MEMBER(FirstName)
+            MARKUPUI_MEMBER(LastName)
+        MARKUPUI_SUPPORT_END()
+    };
+    ```
+
+=== "C#"
+
+    用普通 `struct` 定义 `Name`，直接声明 `FirstName` 和 `LastName` 两个公开字段。
+
+    ```csharp
+    public struct Name
+    {
+        public string FirstName;
+        public string LastName;
+    }
+    ```
+
+### 使用
+
+=== "C++"
+
+    在 `ObservableObject` 子类中，用 `MARKUPUI_PROPERTY` 声明按值存储的 `FullName`。省略默认值时，使用 `Name` 的默认构造。手写声明可以用 `Property::Register<Profile, Name>("FullName")`。共享对象属性则声明完整的指针类型，例如 `Property::Register<Profile, std::shared_ptr<Other>>("Other")`。
+
+    ```cpp
+    class Profile : public MarkupUI::Binding::Modeling::ObservableObject
+    {
+    public:
+        Profile()
+        {
+            InitializeType<Profile>();
+        }
+
+        MARKUPUI_PROPERTY(Profile, Name, FullName)
+    };
+    ```
+
+    `GetFullName()` 返回 `const Name&`。字符串和 SDK 内置结构的 getter 同样返回 `const T&`。下面先复制当前值，再修改并提交，`profile` 指向当前的数据上下文对象。
+
+    ```cpp
+    Name fullName = profile->GetFullName();
+    fullName.FirstName = "Grace";
+    profile->SetFullName(fullName);
+    ```
+
+=== "C#"
+
+    在外层对象上公开 `Name FullName` 属性。设置器接收整个结构，并对 `FullName` 发送 `PropertyChanged`。
+
+    ```csharp
+    using System.ComponentModel;
+
+    public sealed class Profile : INotifyPropertyChanged
+    {
+        private Name _fullName;
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        public Profile()
+        {
+            _fullName.FirstName = "Ada";
+            _fullName.LastName = "Lovelace";
+        }
+
+        public Name FullName
+        {
+            get => _fullName;
+            set
+            {
+                _fullName = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FullName)));
+            }
+        }
+    }
+    ```
+
+    读取 `FullName` 得到结构副本。修改副本后，通过属性赋回整个结构。下例中的 `profile` 是当前的数据上下文对象。
+
+    ```csharp
+    Name fullName = profile.FullName;
+    fullName.FirstName = "Grace";
+    profile.FullName = fullName;
+    ```
+
+!!! important "按整个结构字段发送通知"
+    按值持有的结构成员无法独立发送属性变更通知。修改结构副本后，将整个值交给外层对象的属性设置器，由外层对象通知 `FullName` 变更。
+
+将 `Profile` 实例设为页面的[数据上下文](../concepts/data-context.md)后，可以通过 `FullName` 读取各个成员。
+
+```html
+<p>{{ FullName.FirstName }} {{ FullName.LastName }}</p>
+```
+
+如果希望用一个文本框编辑整个姓名，请将输入绑定到 `FullName`，并让[值转换器](value-converters.md)返回完整的 `Name`。
 
 ## 集合
 
@@ -373,6 +495,8 @@ ObservableArray<std::shared_ptr<ObservableArray<int32_t>>> rows = MakeObservable
 
 集合可以通过属性宏或成员宏公开：
 
+**使用 ObservableObject**
+
 ```cpp
 class PlayerObject final : public MarkupUI::Binding::Modeling::ObservableObject
 {
@@ -385,6 +509,8 @@ public:
     MARKUPUI_PROPERTY(PlayerObject, ObservableArray<int32_t>, Numbers)
 };
 ```
+
+**不使用 ObservableObject**
 
 ```cpp
 class PlayerObject final
@@ -406,6 +532,8 @@ public:
 通过集合接口修改内容时，由集合通知；替换整个集合属性时，由对象通知属性变化。
 
 ### C# 实现
+
+如果要让绑定在集合内容变化时自动更新，集合实例需要实现 `INotifyCollectionChanged`。可直接使用 .NET 的 `ObservableCollection<T>`，或 Markup UI 提供的 `ObservableHashSet<T>` 和 `ObservableDictionary<TKey, TValue>`。
 
 #### ObservableCollection：列表
 
@@ -468,10 +596,39 @@ stats.Remove("Mana");
 
 === "C++"
 
-    使用 `std::shared_ptr<WeaponObject>` 提供嵌套对象，SDK 订阅武器对象的属性变化。
+    在 `PlayerObject` 中用 `std::shared_ptr<WeaponObject>` 声明 `Weapon` 属性。玩家对象持有武器的共享引用。
 
     ```cpp
-    // PlayerObject 和 WeaponObject 的定义见“基础绑定”。
+    #include <markupui/binding/modeling/object_model.h>
+    #include <memory>
+    #include <string>
+
+    class WeaponObject final : public MarkupUI::Binding::Modeling::ObservableObject
+    {
+    public:
+        WeaponObject()
+        {
+            InitializeType<WeaponObject>();
+        }
+
+        MARKUPUI_PROPERTY(WeaponObject, std::string, Name, "Sword")
+    };
+
+    class PlayerObject final : public MarkupUI::Binding::Modeling::ObservableObject
+    {
+    public:
+        PlayerObject()
+        {
+            InitializeType<PlayerObject>();
+        }
+
+        MARKUPUI_PROPERTY(PlayerObject, std::shared_ptr<WeaponObject>, Weapon)
+    };
+    ```
+
+    **使用**
+
+    ```cpp
     auto weapon = std::make_shared<WeaponObject>();
     auto player = std::make_shared<PlayerObject>();
     player->SetWeapon(weapon);
@@ -485,10 +642,59 @@ stats.Remove("Mana");
 
 === "C#"
 
-    武器对象通过 `INotifyPropertyChanged` 通知内部属性变化；玩家对象通过同一接口通知武器替换。
+    在 `PlayerObject` 中用 `WeaponObject` 引用声明 `Weapon` 属性。两个类各自实现 `INotifyPropertyChanged`。
 
     ```csharp
-    // PlayerObject 和 WeaponObject 的定义见“基础绑定”。
+    using System.ComponentModel;
+
+    public sealed class WeaponObject : INotifyPropertyChanged
+    {
+        private string _name = "Sword";
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                if (_name == value)
+                {
+                    return;
+                }
+
+                _name = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Name)));
+            }
+        }
+    }
+
+    public sealed class PlayerObject : INotifyPropertyChanged
+    {
+        private WeaponObject? _weapon;
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        public WeaponObject? Weapon
+        {
+            get => _weapon;
+            set
+            {
+                if (ReferenceEquals(_weapon, value))
+                {
+                    return;
+                }
+
+                _weapon = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Weapon)));
+            }
+        }
+    }
+    ```
+
+    **使用**
+
+    ```csharp
     var weapon = new WeaponObject();
     var player = new PlayerObject();
     player.Weapon = weapon;
@@ -499,8 +705,6 @@ stats.Remove("Mana");
     // 替换武器，由玩家对象发送 Weapon 属性通知。
     player.Weapon = new WeaponObject();
     ```
-
-上面的对象定义及完整属性设置器见[基础绑定](basic-binding.md)。
 
 ## 按值嵌套与共享引用
 

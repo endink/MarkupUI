@@ -23,11 +23,12 @@ icon: bootstrap/braces
 | 向量 | `Vector2`、`Vector3` |
 | 矩阵 | `Matrix4x4` |
 | 对象 | `Object` |
+| 结构 | `Object` |
 | 集合 | `Array`、`Map`、`Set` |
 | 键值对 | `KeyValue` |
 | 空值 | `Null` |
 
-对象和集合通过引用提供给绑定。强引用保持目标对象的生命周期；弱引用不延长目标对象的生命周期，目标仍有效时，绑定可以访问其属性。
+按值持有的[可观察结构](observable-objects.md#observable-struct)在绑定中也归为 `Object`。引用类型的对象和集合通过引用提供给绑定。强引用保持目标对象的生命周期；弱引用不延长目标对象的生命周期，目标仍有效时，绑定可以访问其属性。
 
 === "C++"
 
