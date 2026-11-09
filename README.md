@@ -41,6 +41,8 @@ Markup UI uses HTML for interface structure and CSS for layout and styling. Hard
 
 [Install](https://markupui.labijie.com/en/ue/getting-started/install/) · [Create your first interface](https://markupui.labijie.com/en/ue/getting-started/quick-start/) · [Display in UMG](https://markupui.labijie.com/en/ue/usage/umg/)
 
+[Watch the Unreal Engine quick start on YouTube](https://youtu.be/i6j4lgOKl3E?si=bZueuEBIKbOvEHXN)
+
 ### Unity
 
 Display HTML interfaces through UI Toolkit, synchronize page assets into the project, and preview them in the editor. Use C# data models and commands to connect interfaces to application logic.

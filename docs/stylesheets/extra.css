@@ -208,3 +208,10 @@
   content: attr(data-linenos);
 }
 
+.md-typeset .quick-start-video {
+  display: block;
+  width: 100%;
+  max-width: 45rem;
+  aspect-ratio: 16 / 9;
+  border: 0;
+}

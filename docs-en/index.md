@@ -21,6 +21,12 @@ Manage pages as document assets, preview them in the editor, and display them wi
 
 [Installation and Project Setup](ue/getting-started/install.md) · [Your First In-Game UI](ue/getting-started/quick-start.md) · [Display Pages in UMG](ue/usage/umg.md)
 
+#### Unreal Engine Quick Start Video
+
+<iframe class="quick-start-video" src="https://www.youtube-nocookie.com/embed/i6j4lgOKl3E" title="Unreal Engine Quick Start Video" loading="lazy" allowfullscreen></iframe>
+
+[Watch on YouTube](https://youtu.be/i6j4lgOKl3E?si=bZueuEBIKbOvEHXN)
+
 ### Unity
 
 Synchronize HTML, CSS, and related assets into the project, preview pages in the HTML asset window, and display them through UI Toolkit.

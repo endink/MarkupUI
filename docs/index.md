@@ -21,6 +21,12 @@ Markup UI 是面向游戏与实时应用的用户界面框架，使用 HTML 定�
 
 [安装与项目准备](ue/getting-started/install.md) · [第一个游戏界面](ue/getting-started/quick-start.md) · [在 UMG 中显示页面](ue/usage/umg.md)
 
+#### Unreal Engine 快速入门视频
+
+<iframe class="quick-start-video" src="https://player.bilibili.com/player.html?bvid=BV12c4x6QEq5&amp;autoplay=0" title="Unreal Engine 快速入门视频" loading="lazy" allowfullscreen></iframe>
+
+[在哔哩哔哩观看](https://www.bilibili.com/video/BV12c4x6QEq5)
+
 ### Unity
 
 将 HTML、CSS 及相关资源同步到工程，在 HTML 资产窗口中预览，并通过 UI Toolkit 显示界面。
