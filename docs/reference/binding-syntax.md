@@ -110,6 +110,8 @@ size rows cols form action method enctype accept width height colspan rowspan sc
 | `@onclick`、`@onpointerdown`、`@onpointerup` | `parameter`、`button`、`modifiers` |
 | `@onkeydown`、`@onkeyup` | `parameter`、`key`、`modifiers` |
 | `@oninput`、`@onchange`、`@onsubmit`、`@onfocus`、`@onblur` | `parameter` |
+| `@onanimationstart`、`@onanimationiteration`、`@onanimationend`、`@onanimationcancel` | `parameter` |
+| `@ontransitionrun`、`@ontransitionstart`、`@ontransitionend`、`@ontransitioncancel` | `parameter` |
 
 - **`parameter`**：命令参数，可使用 `{Name}` 或多个表达式 `{Name, Count}`；也可展开为 `@onclick.parameter`。
 - **`key`**：静态逻辑按键名称，例如 `'Enter'`。
@@ -119,6 +121,71 @@ size rows cols form action method enctype accept width height colspan rowspan sc
 事件不使用 `mode`、`update` 或 `converter`。命令路径写为 `{Save}`，不写 `{Save()}`。同一次事件同时触发输入回写和命令时，先回写，再执行命令；属性声明顺序不影响结果。事件不会强制提交尚未到回写时机的输入。
 
 完整事件规则见[事件与命令](../binding/events-and-commands.md)。
+
+### 动画与过渡
+
+通过样式绑定设置 CSS 动画或过渡，通过事件绑定在生命周期变化时执行命令：
+
+| 绑定属性 | 说明 | 示例 |
+| --- | --- | --- |
+| `@style.animation` | 设置 CSS 动画简写值，动画名称对应样式中的 `@keyframes` | `@style.animation="{DamageAnimation}"` |
+| `@style.transition` | 设置 CSS 过渡简写值 | `@style.transition="{Transition}"` |
+
+例如，`DamageAnimation` 可以是 `damage-float 1050ms ease-out both`；`Transition` 可以是 `opacity 200ms ease-out`。静态动画直接写在 CSS 中，不需要绑定动画声明。
+
+| 事件属性 | 触发时机 |
+| --- | --- |
+| `@onanimationstart` | 动画进入播放阶段，正延迟结束后触发 |
+| `@onanimationiteration` | 动画进入下一次迭代；最后一次结束使用 `animationend` |
+| `@onanimationend` | 动画自然播放结束 |
+| `@onanimationcancel` | 动画在自然结束前被取消 |
+| `@ontransitionrun` | 过渡创建，包括延迟阶段 |
+| `@ontransitionstart` | 过渡进入播放阶段，正延迟结束后触发 |
+| `@ontransitionend` | 过渡自然播放结束 |
+| `@ontransitioncancel` | 过渡在自然结束前被取消 |
+
+这些事件使用与其他命令事件相同的 `parameter` 选项，不使用 `mode`、`update`、`converter` 或按键、鼠标过滤选项。事件按原生 DOM 规则冒泡，绑定在父元素上的命令也可能收到子元素的动画事件；一个元素存在多个动画或过渡属性时，也可能触发多次。
+
+下面以 `DamageItems` 为 Map、键为唯一编号、值为显示文字。每次 `PlayDamage` 向集合新增一项，生成的数字独立播放同一个 CSS 动画；结束后把键传给外层上下文的 `RemoveDamage`：
+
+```html
+<div @as="page">
+    <button @onclick="{PlayDamage}" type="button">受到伤害</button>
+    <div @for="{DamageItems}">
+        <span class="damage"
+              @onanimationend="{@page.RemoveDamage, parameter={@key}}">{{ @item }}</span>
+    </div>
+</div>
+```
+
+```css
+.damage {
+    position: absolute;
+    color: #f04452;
+    pointer-events: none;
+    animation: damage-float 1050ms ease-out both;
+}
+@keyframes damage-float {
+    from { opacity: 1; transform: translateY(0px); }
+    to { opacity: 0; transform: translateY(-125px); }
+}
+```
+
+`PlayDamage` 和 `RemoveDamage` 由应用提供，集合新增和移除需要发送对应通知。Map 循环中，`@key` 是键，`@item` 是值。
+
+XHTML/XML 使用声明过的 `mk:` 前缀；内联参数和展开参数写法等价：
+
+```xml
+<div xmlns="http://www.w3.org/1999/xhtml" xmlns:mk="urn:markup-ui">
+    <span mk:style.animation="{DamageAnimation}"
+          mk:onanimationend="{RemoveDamage, parameter={Id}}">-128</span>
+    <span mk:style.animation="{DamageAnimation}"
+          mk:onanimationend="{RemoveDamage}"
+          mk:onanimationend.parameter="{Id}">-128</span>
+</div>
+```
+
+向同一元素再次设置完全相同的动画声明不会自动重播；列表中新建的元素拥有独立动画。自然结束和取消是不同事件，不应依赖 `animationend` 处理所有取消情况。
 
 ## 使用限制
 
